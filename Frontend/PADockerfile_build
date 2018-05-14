@@ -1,0 +1,14 @@
+FROM perfectlysoft/perfectassistant:4.0.3
+# Perfect-mysqlclient-Linux.git--4352026604913922159/PADockerfile
+RUN apt-get -y update && apt-get install -y libmysqlclient-dev
+RUN sed -i -e 's/-fabi-version=2 -fno-omit-frame-pointer//g' /usr/lib/x86_64-linux-gnu/pkgconfig/mysqlclient.pc
+
+# Perfect-COpenSSL-Linux.git-7986581171888700221/PADockerfile
+RUN apt-get -y update && apt-get install -y libssl-dev
+
+# Perfect-LinuxBridge.git-6853710346742756996/PADockerfile
+RUN apt-get -y update && apt-get install -y uuid-dev
+
+# Perfect-libcurl.git--3590115756157698147/PADockerfile
+RUN apt-get -y update && apt-get install -y libcurl4-openssl-dev
+RUN rm -rf /var/lib/apt/lists/*

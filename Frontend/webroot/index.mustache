@@ -1,0 +1,50 @@
+{{> header}}
+    <div class="main">
+    {{#error_no_image}}
+        <br><h4 align="center">Keine weiteren Bilder! [{{done_count}} gelöst]</h4>
+    {{/error_no_image}}
+    {{^error_no_image}}
+    <br><h4 align="middle">Ordne diesem Bild die korrekte Arena, Level und ggf. Pokemon zu. [{{done_count}} gelöst | {{todo_count}} offen]</h4>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="text-center">
+                    <h5>Screenshot</h5>
+                    <img src="/static/images/{{image}}" alt="Raid Image" height="300">
+                    <br><br>
+                    <form action="/delete" method="post">
+                        <input id="id" name="id" type="hidden" value="{{id}}">
+                        <input type="submit" value="Kein Raid">
+                    </form>
+                    <br><br>
+                    <input type="submit" id="skip" value="Überspringen">
+                </div><br>
+            </div>
+            {{#show_pokemon}}
+            <div class="col-md-4" id="pokemon-search-div">
+                <div class="text-center">
+                    <h5>Pokemon</h5>
+                    <input class="search" type="search" id="pokemon-search" name="pokemon-search" data-type="pokemon">
+                    <ul id="pokemon-search-results" class="search-results pokemon-results"></ul>
+                </div><br>
+            </div>
+            <div class="col-md-4">
+            {{/show_pokemon}}
+            {{^show_pokemon}}
+            <div class="col-md-8">
+            {{/show_pokemon}}
+                <div class="text-center">
+                    <h5>Arena</h5>
+                    <input class="search" type="search" id="gym-search" name="gym-search" data-type="gym">
+                    <ul id="gym-search-results" class="search-results gym-results"></ul>
+                </div><br>
+            </div>
+            <div class="col-md-2">
+                <div class="text-center">
+                    <br>
+                    <input type="submit" id="submit-raid" value="Raid Bestätigen">
+                </div><br>
+            </div>
+        </div>
+    {{/error_no_image}}
+    </div>
+{{> footer}}
