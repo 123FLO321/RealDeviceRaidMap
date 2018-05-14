@@ -42,7 +42,7 @@ class TestAppTestUITests: XCTestCase {
         
         if app.frame.size.width == 375 { //iPhone
             coordStartup = normalized.withOffset(CGVector(dx: 375, dy: 800))
-            coordPassenger = normalized.withOffset(CGVector(dx: 375, dy: 950))
+            coordPassenger = normalized.withOffset(CGVector(dx: 275, dy: 950))
             coordNearby = normalized.withOffset(CGVector(dx: 600, dy: 1200))
             coordRaids = normalized.withOffset(CGVector(dx: 550, dy: 450))
         } else if app.frame.size.width == 768 { //iPad

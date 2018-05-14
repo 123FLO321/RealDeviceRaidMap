@@ -38,8 +38,8 @@
                ReferencedContainer = "container:RDRaidMapCtrl.xcodeproj">
             </BuildableReference>
             <LocationScenarioReference
-               identifier = "../../RDRaidMapCtrlUITests/Route1.gpx"
-               referenceType = "0">
+               identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
+               referenceType = "1">
             </LocationScenarioReference>
          </TestableReference>
       </Testables>

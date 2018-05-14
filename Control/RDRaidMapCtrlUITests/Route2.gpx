@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<gpx version="1.1" creator="gpxgenerator.com">
+    <wpt lat="47.262461" lon="11.385480">
+        <ele>0.0</ele>
+        <time>2001-01-01T00:00:00Z</time>
+    </wpt>
+    <wpt lat="47.271165" lon="11.396037">
+        <ele>0.0</ele>
+        <time>2001-01-01T00:00:30Z</time>
+    </wpt>
+    <wpt lat="47.262461" lon="11.385480">
+        <ele>0.0</ele>
+        <time>2001-01-01T00:01:00Z</time>
+    </wpt>
+</gpx>

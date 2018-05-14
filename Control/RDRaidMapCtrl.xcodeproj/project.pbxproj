@@ -38,6 +38,7 @@
 		2E9CC4BD20A97F7A004355DE /* RDRaidMapCtrlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDRaidMapCtrlUITests.swift; sourceTree = "<group>"; };
 		2E9CC4BF20A97F7A004355DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E9CC4C820A982C7004355DE /* Route1.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Route1.gpx; sourceTree = "<group>"; };
+		2E9CC4CC20A9A800004355DE /* Route2.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Route2.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				2E9CC4C820A982C7004355DE /* Route1.gpx */,
+				2E9CC4CC20A9A800004355DE /* Route2.gpx */,
 				2E9CC4BD20A97F7A004355DE /* RDRaidMapCtrlUITests.swift */,
 				2E9CC4BF20A97F7A004355DE /* Info.plist */,
 			);
@@ -363,7 +365,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4AG23JR2AH;
 				INFOPLIST_FILE = RDRaidMapCtrl/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -382,7 +384,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4AG23JR2AH;
 				INFOPLIST_FILE = RDRaidMapCtrl/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -401,7 +403,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4AG23JR2AH;
 				INFOPLIST_FILE = RDRaidMapCtrlUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -421,7 +423,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4AG23JR2AH;
 				INFOPLIST_FILE = RDRaidMapCtrlUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
