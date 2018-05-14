@@ -67,7 +67,7 @@ class InputManager {
 
                         // fig = 2 level
                         let tok =  string.components(separatedBy:"ﬁg")
-                        level += (tok.count-1)*2
+                        level! += (tok.count-1)*2
                         
                         if level! < 1 {
                             level = 1

@@ -10,15 +10,13 @@ import PerfectLib
 import PerfectHTTP
 import PerfectHTTPServer
 import PerfectMustache
-//import PerfectSession
-//import PerfectSessionMySQL
 import PerfectLogger
 
 print("Enviroment: \(ProcessInfo.processInfo.environment)")
 
 do {
-try Dir(Dir.workingDir.path + "/log").create()
-try Dir(Dir.workingDir.path + "/inbox").create()
+    try Dir(Dir.workingDir.path + "/log").create()
+    try Dir(Dir.workingDir.path + "/inbox").create()
 } catch {}
 
 MainLogger.shared.debugLogFile = Dir.workingDir.path + "/log/debug.log"
@@ -35,28 +33,7 @@ var serverName = ProcessInfo.processInfo.environment["SERVER_NAME"] ?? "RaidMapH
 var serverAddress = ProcessInfo.processInfo.environment["SERVER_HOST"] ?? "0.0.0.0"
 var serverPort = Int(ProcessInfo.processInfo.environment["SERVER_PORT"] ?? "") ?? 8181
 
-/*
-SessionConfig.name = "SESSION-TOKEN"
-SessionConfig.idle = 2592000
-
-// Optional
-SessionConfig.cookieDomain = serverAddress
-SessionConfig.cookieSecure = false
-SessionConfig.IPAddressLock = false
-SessionConfig.userAgentLock = false
-SessionConfig.CSRF.checkState = false
-SessionConfig.CSRF.checkHeaders = true
-SessionConfig.CSRF.requireToken = true
-
-SessionConfig.CORS.enabled = false
-SessionConfig.CORS.methods = [.get, .post]
-SessionConfig.CORS.acceptableHostnames.append("::1")
-SessionConfig.CORS.maxAge = 3600
-*/
-DB.initDB()
 InputManager.start()
-
-//let sessionDriver = SessionMySQLDriver()
 
 var serverRoutes = Routes([
     // HOME
@@ -80,9 +57,8 @@ var serverRoutes = Routes([
     })
 ])
 
-//AuthFilter.authenticationConfig.include("*")
 
-let server = HTTPServer.Server(name: serverName, address: serverAddress, port: serverPort, routes: serverRoutes/*, requestFilters: [sessionDriver.requestFilter], responseFilters: [sessionDriver.responseFilter]*/)
+let server = HTTPServer.Server(name: serverName, address: serverAddress, port: serverPort, routes: serverRoutes)
 
 do {
     try HTTPServer.launch([server])

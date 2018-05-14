@@ -5,6 +5,7 @@
 //  Created  on 19.04.18.
 //
 
+import Foundation
 import PerfectLib
 import PerfectHTTP
 import PerfectMustache
