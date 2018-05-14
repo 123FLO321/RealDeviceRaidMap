@@ -1,1 +1,7 @@
 .DS_Store
+xcuserdata
+.build
+.build_lin
+.package_lin.pins
+.package_lin.resolved
+Package.swift.orig

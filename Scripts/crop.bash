@@ -17,37 +17,39 @@ do
 		WIDTH=$(identify -format "%w" "ImageInput.png")> /dev/null
 
 		if [ "$WIDTH" == "750" ] #iPhone
-		then
-			MON_SIZE="0x0"
-			MON_X1=0
-			MON_X2=0
-			MON_X3=0
-			MON_Y1=0
-			MON_Y2=0
+		then			
+			MON_SIZE="84x84"
+			MON_X1=119
+			MON_X2=338
+			MON_X3=556
+			MON_Y1=555
+			MON_Y2=878
 			
-			TIME_SIZE="0x0"
-			TIME_X1=0
-			TIME_X2=0
-			TIME_X3=0
-			TIME_Y1=0
-			TIME_Y2=0
+			TIME_SIZE="157x30"
+			TIME_X1=83
+			TIME_X2=302
+			TIME_X3=520
+			TIME_Y1=712
+			TIME_Y2=1035
 			
-			FULL_SIZE="0x0"
-			FULL_X1=0
-			FULL_X2=0
-			FULL_X3=0
-			FULL_Y1=0
-			FULL_Y2=0
+			FULL_SIZE="157x260"
+			FULL_X1=83
+			FULL_X2=302
+			FULL_X3=520
+			FULL_Y1=519
+			FULL_Y2=842
 			
-			LEVEL_SIZE="0x0"
-			LEVEL_X1=0
-			LEVEL_X2=0
-			LEVEL_X3=0
-			LEVEL_Y1=0
-			LEVEL_Y2=0
-		fi
-		else if [ "$WIDTH" == "1536" ]
-		then
+			LEVEL_SIZE="157x30"
+			LEVEL_X1=83
+			LEVEL_X2=302
+			LEVEL_X3=520
+			LEVEL_Y1=749
+			LEVEL_Y2=1072
+			
+			COMPARE_X=85
+			COMPARE_Y=595
+		elif [ "$WIDTH" == "1536" ]
+		then			
 			MON_SIZE="172x172"
 			MON_X1=244
 			MON_X2=692
@@ -166,7 +168,7 @@ do
 			HASH4MON=$(md5 -q ImageMon4.png)
 			HASH5MON=$(md5 -q ImageMon5.png)
 			HASH6MON=$(md5 -q ImageMon6.png)
-
+			
 			if [ ! -d "Output-Temp/$HASH1" ]; then
 				mkdir "Output-Temp/$HASH1"
 				mv ImageMon1.png "Output-Temp/$HASH1"/"$HASH1MON".png

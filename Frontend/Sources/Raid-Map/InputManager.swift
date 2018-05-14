@@ -60,8 +60,15 @@ class InputManager {
                     } else if name == "level.txt" {
                         let file = File(dir.path + "/" + name)
                         let string = try file.readString()
+                        
+                        // @ and M = 1 level
                         let result = string.trimmingCharacters(in: CharacterSet(charactersIn: "@M").inverted)
                         level = result.count
+
+                        // fig = 2 level
+                        let tok =  string.components(separatedBy:"ﬁg")
+                        level += (tok.count-1)*2
+                        
                         if level! < 1 {
                             level = 1
                         } else if level! > 5 {
