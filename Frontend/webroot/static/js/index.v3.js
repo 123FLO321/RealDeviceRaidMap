@@ -99,22 +99,22 @@ function submit() {
     var pokemonElement = document.getElementById("pokemon-search")
     if (pokemonElement != null) {
         if (mon == 0) {
-            alert("Pokémon Benötigt!")
+            alert("Pokémon required!")
             return
         } else if (mon < 0 || mon > 386) {
-            alert("Pokémon Falsch!")
+            alert("Pokémon incorrect!")
             return
         }
     }
     
-	if (gym == -1) {
-		alert("Arena Benötigt!")
+    if (gym == -1) {
+        alert("Gym required!")
     } else if (id == null) {
-		alert("Fehler! Bitte Lade die Seite neu!")
-	} else {
-		$.post( "/submit", { id: id, mon: mon, gym: gym } )
-		.done(function( data ) {
-			window.location.href = "/"
-		});
-	}
+        alert("Error! Please try again later!")
+    } else {
+        $.post( "/submit", { id: id, mon: mon, gym: gym } )
+        .done(function( data ) {
+            window.location.href = "/"
+        });
+    }
 }
