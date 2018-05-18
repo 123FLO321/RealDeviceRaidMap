@@ -37,8 +37,8 @@ class InputManager {
                 var full: File?
                 var mon: File?
                 var monHash: String?
-                var time: Int?
-                var level: Int?
+                var time: Int32?
+                var level: Int32?
                 try dir.forEachEntry(closure: { (name) in
                     if name == "Full.png" {
                         full = File(dir.path + "/" + name)
@@ -51,10 +51,10 @@ class InputManager {
                             .replacingOccurrences(of: "\n", with: "")
                         let stringComp = string.components(separatedBy: ":")
                         if stringComp.count == 2 {
-                            let hour = Int(stringComp[0]) ?? 0
-                            let minute = Int(stringComp[1]) ?? 0
+                            let hour = Int32(stringComp[0]) ?? 0
+                            let minute = Int32(stringComp[1]) ?? 0
                             time = hour * 3600 + minute * 60
-                        } else if string.contains(string: "Raid") {
+                        } else if string.lowercased().contains(string: "ong")  || string.lowercased().contains(string: "raid") {
                             time = -1
                         }
                     } else if name == "level.txt" {
@@ -63,11 +63,11 @@ class InputManager {
                         
                         // @ and M = 1 level
                         let result = string.trimmingCharacters(in: CharacterSet(charactersIn: "@M").inverted)
-                        level = result.count
+                        level = Int32(result.count)
 
                         // fig = 2 level
                         let tok =  string.components(separatedBy:"ﬁg")
-                        level! += (tok.count-1)*2
+                        level! += Int32((tok.count-1)*2)
                         
                         if level! < 1 {
                             level = 1
@@ -104,7 +104,7 @@ class InputManager {
                                 let timezoneSeconds = Int(ProcessInfo.processInfo.environment["TIMEZONE_SECONDS"] ?? "") ?? 0
                                 let date = Date().setTime(hour: 0, min: 0, sec: 0, timeZone: TimeZone(secondsFromGMT: timezoneSeconds)!)!.addingTimeInterval(TimeInterval(time!))
                                 
-                                let dateBattle = Int(date.timeIntervalSince1970)
+                                let dateBattle = Int32(date.timeIntervalSince1970)
                                 let dateStart = dateBattle - 3600
                                 let dateEnd = dateBattle + 2700
                                 let oldRaid = Raid.fromDB(gymId: raidImageMon!.gymId!)

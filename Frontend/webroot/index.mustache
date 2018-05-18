@@ -1,10 +1,10 @@
 {{> header}}
     <div class="main">
     {{#error_no_image}}
-        <br><h4 align="center">No pictures left (for now). [{{done_count}} done]</h4>
+        <br><h4 align="center">No image left (for now). [{{done_count}} done]</h4>
     {{/error_no_image}}
     {{^error_no_image}}
-    <br><h4 align="middle">Match this picture with the correct arena and Pokémon if necessary. [{{done_count}} done | {{todo_count}} open]</h4>
+    <br><h4 align="middle">Match this image with the correct Gym and Pokémon if necessary. [{{done_count}} done | {{todo_count}} open]</h4>
         <div class="row">
             <div class="col-md-2">
                 <div class="text-center">
@@ -13,10 +13,10 @@
                     <br><br>
                     <form action="/delete" method="post">
                         <input id="id" name="id" type="hidden" value="{{id}}">
-                        <input type="submit" value="Kein Raid">
+                        <input type="submit" value="Not a Raid">
                     </form>
                     <br><br>
-                    <input type="submit" id="skip" value="Überspringen">
+                    <input type="submit" id="skip" value="Skip">
                 </div><br>
             </div>
             {{#show_pokemon}}
@@ -41,7 +41,7 @@
             <div class="col-md-2">
                 <div class="text-center">
                     <br>
-                    <input type="submit" id="submit-raid" value="Raid Bestätigen">
+                    <input type="submit" id="submit-raid" value="Submit Raid">
                 </div><br>
             </div>
         </div>

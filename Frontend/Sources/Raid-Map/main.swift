@@ -66,7 +66,7 @@ do {
     fatalError("\(error)")
 }
 
-extension Optional where Wrapped == Int {
+extension Optional where Wrapped == Int32 {
     var dbString: String {
         if self == nil {
             return "NULL"

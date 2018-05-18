@@ -24,12 +24,11 @@ struct MainRequestHandler {
     
         var data = MustacheEvaluationContext.MapType()
         
-        
         if page == .submit {
             var id = request.param(name: "id") ?? ""
             id.removeLast()
-            let mon = Int(request.param(name: "mon") ?? "")
-            let gym = Int(request.param(name: "gym") ?? "")
+            let mon = Int32(request.param(name: "mon") ?? "")
+            let gym = Int32(request.param(name: "gym") ?? "")
             let raidImage = RaidImage(hash: id, gymId: gym, pokemonId: mon)
             if !raidImage.save() {
                 response.status = .internalServerError

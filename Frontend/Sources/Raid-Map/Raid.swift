@@ -10,17 +10,17 @@ import PerfectMySQL
 
 struct Raid {
     
-    var id: Int?
-    var gymId: Int
-    var level: Int
-    var pokemonId: Int?
-    var timeSpawn: Int
-    var timeBattle: Int
-    var timeEnd: Int
+    var id: Int32?
+    var gymId: Int32
+    var level: Int32
+    var pokemonId: Int32?
+    var timeSpawn: Int32
+    var timeBattle: Int32
+    var timeEnd: Int32
     
     // cp move_1 move_2
     
-    static func fromDB(gymId: Int) -> Raid? {
+    static func fromDB(gymId: Int32) -> Raid? {
         guard let mysql = DB.mysql else {
             return nil
         }
@@ -41,13 +41,13 @@ struct Raid {
         if result != nil {
             let element = result!.next()
             if element != nil {
-                let id = Int(element![0] ?? "") ?? 0
-                let gymId = Int(element![1] ?? "") ?? 0
-                let level = Int(element![2] ?? "") ?? 0
-                let pokemonId = Int(element![3] ?? "")
-                let timeSpawn = Int(element![4] ?? "") ?? 0
-                let timeBattle = Int(element![5] ?? "") ?? 0
-                let timeEnd = Int(element![6] ?? "") ?? 0
+                let id = Int32(element![0] ?? "") ?? 0
+                let gymId = Int32(element![1] ?? "") ?? 0
+                let level = Int32(element![2] ?? "") ?? 0
+                let pokemonId = Int32(element![3] ?? "")
+                let timeSpawn = Int32(element![4] ?? "") ?? 0
+                let timeBattle = Int32(element![5] ?? "") ?? 0
+                let timeEnd = Int32(element![6] ?? "") ?? 0
 
                 return Raid(id: id, gymId: gymId, level: level, pokemonId: pokemonId, timeSpawn: timeSpawn, timeBattle: timeBattle, timeEnd: timeEnd)
             }
@@ -95,7 +95,7 @@ struct Raid {
         
         let sql = """
         INSERT INTO raids (id, fort_id, level, pokemon_id, time_spawn, time_battle, time_end)
-        VALUES ("\(id.dbString)", "\(gymId)", "\(level)", \(pokemonId.dbString), \(timeSpawn), \(timeBattle), \(timeEnd))
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         ON DUPLICATE KEY UPDATE
             fort_id=VALUES(fort_id),
             pokemon_id=VALUES(pokemon_id),
@@ -104,10 +104,17 @@ struct Raid {
             time_end=VALUES(time_end)
         """
         
-        guard mysql.query(statement: sql) else {
-            return false
-        }
-        return true
+        let stmt = MySQLStmt(mysql)
+        _ = stmt.prepare(statement: sql)
+        stmt.bindParam(id.dbString)
+        stmt.bindParam(gymId)
+        stmt.bindParam(level)
+        stmt.bindParam(pokemonId.dbString)
+        stmt.bindParam(timeSpawn)
+        stmt.bindParam(timeBattle)
+        stmt.bindParam(timeEnd)
+        
+        return stmt.execute()
     }
     
     

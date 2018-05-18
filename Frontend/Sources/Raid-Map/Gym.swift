@@ -9,7 +9,7 @@ import PerfectMySQL
 
 struct Gym {
     
-    var id: Int
+    var id: Int32
     var name: String?
     var url: String?
     
@@ -21,23 +21,27 @@ struct Gym {
         let sql = """
         SELECT id, name, url
         FROM forts
-        WHERE LOWER(name) LIKE LOWER("%\(term)%")
+        WHERE LOWER(name) LIKE ?
         LIMIT 10
         """
         
-        guard mysql.query(statement: sql) else {
+        let stmt = MySQLStmt(mysql)
+        _ = stmt.prepare(statement: sql)
+        stmt.bindParam("%\(term.lowercased())%")
+        
+        guard stmt.execute() else {
             return nil
         }
+        
         var gyms = [Gym]()
-        let result = mysql.storeResults()
-        if result != nil {
-            while let element = result!.next() {
-                let id = Int(element[0] ?? "") ?? 0
-                let name = element[1]
-                let url = element[2]
+        let result = stmt.results()
+        while let element = result.next() {
+            print(element)
+            let id = element[0] as! Int32
+            let name = element[1] as! String
+            let url = element[2] as! String
 
-                gyms.append(Gym(id: id, name: name, url: url))
-            }
+            gyms.append(Gym(id: id, name: name, url: url))
         }
         return gyms
     }

@@ -11,8 +11,8 @@ import PerfectMySQL
 struct RaidImage {
     
     var hash: String
-    var gymId: Int?
-    var pokemonId: Int?
+    var gymId: Int32?
+    var pokemonId: Int32?
     
     static func fromDB(hash: String) -> RaidImage? {
         guard let mysql = DB.mysql else {
@@ -21,24 +21,26 @@ struct RaidImage {
         let sql = """
         SELECT hash, gym_id, pokemon_id
         FROM raid_images
-        WHERE hash = "\(hash)"
+        WHERE hash = ?
         LIMIT 1
         """
         
-        guard mysql.query(statement: sql) else {
+        let stmt = MySQLStmt(mysql)
+        _ = stmt.prepare(statement: sql)
+        stmt.bindParam(hash)
+
+        guard stmt.execute() else {
             return nil
         }
-        let result = mysql.storeResults()
-        if result != nil {
-            let element = result!.next()
-            if element != nil {
-                let hash = element![0] ?? ""
-                let gymId = Int(element![1] ?? "")
-                let pokemonId = Int(element![2] ?? "")
-                return RaidImage(hash: hash, gymId: gymId, pokemonId: pokemonId)
-            }
+        
+        let result = stmt.results()
+        guard let element = result.next() else {
+            return nil
         }
-        return nil
+        let hash = element[0] as! String
+        let gymId = element[1] as? Int32
+        let pokemonId = element[2] as? Int32
+        return RaidImage(hash: hash, gymId: gymId, pokemonId: pokemonId)
     }
     
     static func fromDB() -> [RaidImage]? {
@@ -58,8 +60,8 @@ struct RaidImage {
         if result != nil {
             while let element = result!.next() {
                 let hash = element[0] ?? ""
-                let gymId = Int(element[1] ?? "")
-                let pokemonId = Int(element[2] ?? "")
+                let gymId = Int32(element[1] ?? "")
+                let pokemonId = Int32(element[2] ?? "")
                 images.append(RaidImage(hash: hash, gymId: gymId, pokemonId: pokemonId))
             }
         }
@@ -95,13 +97,14 @@ struct RaidImage {
         
         let sql = """
         DELETE FROM raid_images
-        WHERE hash = "\(hash)"
+        WHERE hash = ?
         """
         
-        guard mysql.query(statement: sql) else {
-            return false
-        }
-        return true
+        let stmt = MySQLStmt(mysql)
+        _ = stmt.prepare(statement: sql)
+        stmt.bindParam(hash)
+        
+        return stmt.execute()
     }
     
     func save() -> Bool {
@@ -111,16 +114,19 @@ struct RaidImage {
             
         let sql = """
         INSERT INTO raid_images (hash, gym_id, pokemon_id)
-        VALUES ("\(hash)", "\(gymId.dbString)", \(pokemonId.dbString))
+        VALUES (?, ?, ?)
         ON DUPLICATE KEY UPDATE
             gym_id=VALUES(gym_id),
             pokemon_id=VALUES(pokemon_id)
         """
         
-        guard mysql.query(statement: sql) else {
-            return false
-        }
-        return true
+        let stmt = MySQLStmt(mysql)
+        _ = stmt.prepare(statement: sql)
+        stmt.bindParam(hash)
+        stmt.bindParam(gymId.dbString)
+        stmt.bindParam(pokemonId.dbString)
+        
+        return stmt.execute()
     }
     
 }
