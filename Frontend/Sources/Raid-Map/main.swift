@@ -66,16 +66,6 @@ do {
     fatalError("\(error)")
 }
 
-extension Optional where Wrapped == Int32 {
-    var dbString: String {
-        if self == nil {
-            return "NULL"
-        } else {
-            return self!.description
-        }
-    }
-}
-
 extension Date {
     public func setTime(hour: Int, min: Int, sec: Int, timeZone: TimeZone = TimeZone.current) -> Date? {
         let x: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute, .second]

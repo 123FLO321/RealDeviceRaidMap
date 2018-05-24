@@ -123,8 +123,16 @@ struct RaidImage {
         let stmt = MySQLStmt(mysql)
         _ = stmt.prepare(statement: sql)
         stmt.bindParam(hash)
-        stmt.bindParam(gymId.dbString)
-        stmt.bindParam(pokemonId.dbString)
+        if gymId != nil {
+            stmt.bindParam(gymId!)
+        } else {
+            stmt.bindParam()
+        }
+        if pokemonId != nil {
+            stmt.bindParam(pokemonId!)
+        } else {
+            stmt.bindParam()
+        }
         
         return stmt.execute()
     }

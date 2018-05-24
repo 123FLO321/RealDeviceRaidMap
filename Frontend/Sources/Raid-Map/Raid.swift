@@ -106,10 +106,18 @@ struct Raid {
         
         let stmt = MySQLStmt(mysql)
         _ = stmt.prepare(statement: sql)
-        stmt.bindParam(id.dbString)
+        if id != nil {
+            stmt.bindParam(id!)
+        } else {
+            stmt.bindParam()
+        }
         stmt.bindParam(gymId)
         stmt.bindParam(level)
-        stmt.bindParam(pokemonId.dbString)
+        if pokemonId != nil {
+            stmt.bindParam(pokemonId!)
+        } else {
+            stmt.bindParam()
+        }
         stmt.bindParam(timeSpawn)
         stmt.bindParam(timeBattle)
         stmt.bindParam(timeEnd)
