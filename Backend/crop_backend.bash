@@ -90,20 +90,20 @@ do
 
 		if [ "$HASH" == "235e2af860fe01bd3da8809d897b31bb" ]
 		then
-			cp ImageInput.png ImageFull1.png
-			mogrify -crop "$FULL_SIZE"+"$FULL_X1"+"$FULL_Y1" -strip +repage ImageFull1.png
-			cp ImageInput.png ImageFull2.png
-			mogrify -crop "$FULL_SIZE"+"$FULL_X2"+"$FULL_Y1" -strip +repage ImageFull2.png
-			cp ImageInput.png ImageFull3.png
-			mogrify -crop "$FULL_SIZE"+"$FULL_X3"+"$FULL_Y1" -strip +repage ImageFull3.png
-			cp ImageInput.png ImageFull4.png
-			mogrify -crop "$FULL_SIZE"+"$FULL_X1"+"$FULL_Y2" -strip +repage ImageFull4.png
-			cp ImageInput.png ImageFull5.png
-			mogrify -crop "$FULL_SIZE"+"$FULL_X2"+"$FULL_Y2" -strip +repage ImageFull5.png
-			cp ImageInput.png ImageFull6.png
-			mogrify -crop "$FULL_SIZE"+"$FULL_X3"+"$FULL_Y2" -strip +repage ImageFull6.png
+            cp ImageInput.png ImageFull1.png
+            mogrify -crop "$FULL_SIZE"+"$FULL_X1"+"$FULL_Y1" -strip +repage ImageFull1.png
+            cp ImageInput.png ImageFull2.png
+            mogrify -crop "$FULL_SIZE"+"$FULL_X2"+"$FULL_Y1" -strip +repage ImageFull2.png
+            cp ImageInput.png ImageFull3.png
+            mogrify -crop "$FULL_SIZE"+"$FULL_X3"+"$FULL_Y1" -strip +repage ImageFull3.png
+            cp ImageInput.png ImageFull4.png
+            mogrify -crop "$FULL_SIZE"+"$FULL_X1"+"$FULL_Y2" -strip +repage ImageFull4.png
+            cp ImageInput.png ImageFull5.png
+            mogrify -crop "$FULL_SIZE"+"$FULL_X2"+"$FULL_Y2" -strip +repage ImageFull5.png
+            cp ImageInput.png ImageFull6.png
+            mogrify -crop "$FULL_SIZE"+"$FULL_X3"+"$FULL_Y2" -strip +repage ImageFull6.png
 
-			mv ImageFull1.png "$RDRM_HOME_PATH"Backend/process_img/"$FILE"01.png
+            mv ImageFull1.png "$RDRM_HOME_PATH"Backend/process_img/"$FILE"01.png
             mv ImageFull2.png "$RDRM_HOME_PATH"Backend/process_img/"$FILE"02.png
             mv ImageFull3.png "$RDRM_HOME_PATH"Backend/process_img/"$FILE"03.png
             mv ImageFull4.png "$RDRM_HOME_PATH"Backend/process_img/"$FILE"04.png
