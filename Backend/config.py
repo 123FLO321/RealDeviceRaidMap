@@ -1,6 +1,6 @@
 
-DB_ENGINE = 'mysql://root:Mysql0924@192.168.1.36:3306/monocle_raid?charset=utf8'
-#DB_ENGINE = 'postgres://postgres:postgres@192.168.1.36:5432/monocle_raid'
+DB_ENGINE = 'mysql://user:pass@192.168.1.36:3306/monocle_raid?charset=utf8'
+#DB_ENGINE = 'postgres://user:pass@192.168.1.36:5432/monocle_raid'
 
 # the corner points of a rectangle for download gym url image
 # If either of them is (0, 0) then download all gym url image in database
