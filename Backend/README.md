@@ -16,4 +16,9 @@ Backend for RealDeviceRaidMap. Identify Gym from Gym image and post extracted in
 6. Run `python3.6 raidscan.py` from the command line
 7. Open another terminal and activate venv as in step 3
 8. Run `python3.6 downloadfortimg.py`. If you don't want to download whole fort image in database set `MAP_START` and `MAP_END`.
-9. 
+9. Wait finish download fort images, then run `python3.6 findfort.py`
+10. Open crop_backend.bash and edit `RDRM_HOME_PATH` to your RealDeviceRaidMap directory.
+11. Run `bach crop_backend.bash`. ** Note. Currently Backend can't run with Frontend so Stop crop.bash before running crop_backend.bash **. No worry. Backend can identify gym images over 95% of gyms automatically (Without user input).
+12. Wait until all gyms are identified.
+
+
