@@ -6,9 +6,11 @@ Backend for RealDeviceRaidMap. Identify Gym from Gym image and post extracted in
 	* gym 
 	* raid boss
 	* start time
-2. Update raids and fort_sightings in monocle (Hydro) database
-3. Download gym(fort) url images and find matching gym automatically. Up to 99% of gyms are detected successfully.
-4. MySQL and Postgresql supported.
+2. Parameters to identify gym and raid boss are stored in gym_images and pokemon_images table automatically.
+3. Update raids and fort_sightings tables in monocle (Hydro) database
+4. Download gym(fort) url images and find matching gym automatically. Up to 99% of gyms are detected successfully.
+5. MySQL and Postgresql supported.
+
 
 ## Setting up
 1. Install Python 3.6
