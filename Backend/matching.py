@@ -11,15 +11,19 @@ def fort_image_matching(url_img_name, fort_img_name):
         scale = float(288/height)
     else:
         scale = float(288/width)
+
+    height_f, width_f, channels_f = fort_img.shape
+
+    scale_fort = width_f/320
         
     if scale < 0.98 or scale > 1.02:
-        url_img = cv2.resize(url_img,None,fx=scale, fy=scale, interpolation = cv2.INTER_NEAREST)
+        url_img = cv2.resize(url_img,None,fx=scale*scale_fort, fy=scale*scale_fort, interpolation = cv2.INTER_NEAREST)
 
-    crop = fort_img[74:246,74:144]
+    crop = fort_img[int(74*scale_fort):int(246*scale_fort),int(74*scale_fort):int(144*scale_fort)]
 
     # Calculate center of fort image(x=74, y=74, width=172, height=172) of fort_img
-    fi_center_x = (246-74)/2
-    fi_center_y = (246-74)/2
+    fi_center_x = ((246-74)*scale_fort)/2
+    fi_center_y = ((246-74)*scale_fort)/2
 
     if crop.mean() == 255 or crop.mean() == 0:
         return 0.0
@@ -51,14 +55,18 @@ def fort_image_matching_imshow(url_img_name, fort_img_name):
     else:
         scale = float(288/width)
         
-    if scale < 0.98 or scale > 1.02:
-        url_img = cv2.resize(url_img,None,fx=scale, fy=scale, interpolation = cv2.INTER_NEAREST)
+    height_f, width_f, channels_f = fort_img.shape
 
-    #crop = fort_img[74:246,74:246]
-    crop = fort_img[74:246,74:144]
-    
-    fi_center_x = (246-74)/2
-    fi_center_y = (246-74)/2
+    scale_fort = width_f/320
+        
+    if scale < 0.98 or scale > 1.02:
+        url_img = cv2.resize(url_img,None,fx=scale*scale_fort, fy=scale*scale_fort, interpolation = cv2.INTER_NEAREST)
+
+    crop = fort_img[int(74*scale_fort):int(246*scale_fort),int(74*scale_fort):int(144*scale_fort)]
+
+    # Calculate center of fort image(x=74, y=74, width=172, height=172) of fort_img
+    fi_center_x = ((246-74)*scale_fort)/2
+    fi_center_y = ((246-74)*scale_fort)/2
 
     if crop.mean() == 255 or crop.mean() == 0:
         return 0.0
@@ -66,7 +74,6 @@ def fort_image_matching_imshow(url_img_name, fort_img_name):
     result = cv2.matchTemplate(url_img, crop, cv2.TM_CCOEFF_NORMED)
     min_val3, max_val3, min_loc3, max_loc3 = cv2.minMaxLoc(result)
     
-
     height, width, channels = url_img.shape
     
     ui_center_x = width/2-max_loc3[0]

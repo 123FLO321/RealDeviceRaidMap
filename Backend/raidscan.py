@@ -78,14 +78,29 @@ def detectGym(raid_img):
     global gym_db
     
     height, width, channels = raid_img.shape
-    if width == 320 and height == 525: 
-        cropTop = raid_img[40:70, 135:185]
-        cropLeft = raid_img[125:195, 45:70]
-    else:
-        print('Unsuported image size')
-        session.close()
-        sys.exit(1)
-        return -1
+    
+    org_top_y = 40
+    org_top_h = 30
+    org_top_x = 135
+    org_top_w = 50
+    org_left_y = 125
+    org_left_h = 70
+    org_left_x = 45
+    org_left_w = 25
+    
+    scale = width/320
+
+    top_y = int(org_top_y*scale)
+    top_h = int(org_top_h*scale)
+    top_x = int(org_top_x*scale)
+    top_w = int(org_top_w*scale)
+    left_y = int(org_left_y*scale)
+    left_h = int(org_left_h*scale)
+    left_x = int(org_left_x*scale)
+    left_w = int(org_left_w*scale)
+    
+    cropTop = raid_img[top_y:top_y+top_h, top_x:top_x+top_w]
+    cropLeft = raid_img[left_y:left_y+left_h, left_x:left_x+left_w]
             
     top_mean0 = int(cropTop[:,:,0].mean())
     top_mean1 = int(cropTop[:,:,1].mean())
@@ -132,14 +147,29 @@ def detectGym(raid_img):
 
 def get_gym_image_id(raid_img):
     height, width, channels = raid_img.shape
-    if width == 320 and height == 525: 
-        cropTop = raid_img[40:70, 135:185]
-        cropLeft = raid_img[125:195, 45:70]
-    else:
-        print('Unsuported image size')
-        session.close()
-        sys.exit(1)
-        return -1
+    
+    org_top_y = 40
+    org_top_h = 30
+    org_top_x = 135
+    org_top_w = 50
+    org_left_y = 125
+    org_left_h = 70
+    org_left_x = 45
+    org_left_w = 25
+    
+    scale = width/320
+
+    top_y = int(org_top_y*scale)
+    top_h = int(org_top_h*scale)
+    top_x = int(org_top_x*scale)
+    top_w = int(org_top_w*scale)
+    left_y = int(org_left_y*scale)
+    left_h = int(org_left_h*scale)
+    left_x = int(org_left_x*scale)
+    left_w = int(org_left_w*scale)
+    
+    cropTop = raid_img[top_y:top_y+top_h, top_x:top_x+top_w]
+    cropLeft = raid_img[left_y:left_y+left_h, left_x:left_x+left_w]
         
     top_mean0 = int(cropTop[:,:,0].mean())
     top_mean1 = int(cropTop[:,:,1].mean())
@@ -157,39 +187,46 @@ def detectMon(img):
     bin_color = cv2.cvtColor(bin_img,cv2.COLOR_GRAY2BGR)
 
     height, width, channels = img.shape
-    if width == 320 and height == 525:
-        x1 = [288, 300]
-        y1 = [125, 195]
-        crop1 = bin_img[y1[0]:y1[1], x1[0]:x1[1]]
+    
+    org_x1 = [288, 300]
+    org_y1 = [125, 195]
+    org_x2 = [264, 280]
+    org_y2 = [234, 250]    
+    org_x3 = [244, 260]
+    org_y3 = [254, 270]    
+    org_x4 = [224, 240]
+    org_y4 = [270, 286]    
+    org_x5 = [310, 318]
+    org_y5 = [220, 350]    
+    org_x6 = [280, 308]
+    org_y6 = [270, 350]    
+    org_x7 = [244, 278]
+    org_y7 = [300, 350]    
 
-        x2 = [264, 280]
-        y2 = [234, 250]    
-        crop2 = bin_img[y2[0]:y2[1], x2[0]:x2[1]]
+    scale = width/320
 
-        x3 = [244, 260]
-        y3 = [254, 270]    
-        crop3 = bin_img[y3[0]:y3[1], x3[0]:x3[1]]
-
-        x4 = [224, 240]
-        y4 = [270, 286]    
-        crop4 = bin_img[y4[0]:y4[1], x4[0]:x4[1]]
-
-        x5 = [310, 318]
-        y5 = [220, 350]    
-        crop5 = bin_img[y5[0]:y5[1], x5[0]:x5[1]]
-
-        x6 = [280, 308]
-        y6 = [270, 350]    
-        crop6 = bin_img[y6[0]:y6[1], x6[0]:x6[1]]
-
-        x7 = [244, 278]
-        y7 = [300, 350]    
-        crop7 = bin_img[y7[0]:y7[1], x7[0]:x7[1]]
-    else:
-        print('Unsuported image size')
-        session.close()
-        sys.exit(1)
-        return -1
+    x1 = [int(org_x1[0]*scale), int(org_x1[1]*scale)]
+    y1 = [int(org_y1[0]*scale), int(org_y1[1]*scale)]
+    x2 = [int(org_x2[0]*scale), int(org_x2[1]*scale)]
+    y2 = [int(org_y2[0]*scale), int(org_y2[1]*scale)]    
+    x3 = [int(org_x3[0]*scale), int(org_x3[1]*scale)]
+    y3 = [int(org_y3[0]*scale), int(org_y3[1]*scale)]    
+    x4 = [int(org_x4[0]*scale), int(org_x4[1]*scale)]
+    y4 = [int(org_y4[0]*scale), int(org_y4[1]*scale)]    
+    x5 = [int(org_x5[0]*scale), int(org_x5[1]*scale)]
+    y5 = [int(org_y5[0]*scale), int(org_y5[1]*scale)]    
+    x6 = [int(org_x6[0]*scale), int(org_x6[1]*scale)]
+    y6 = [int(org_y6[0]*scale), int(org_y6[1]*scale)]    
+    x7 = [int(org_x7[0]*scale), int(org_x7[1]*scale)]
+    y7 = [int(org_y7[0]*scale), int(org_y7[1]*scale)]    
+    
+    crop1 = bin_img[y1[0]:y1[1], x1[0]:x1[1]]
+    crop2 = bin_img[y2[0]:y2[1], x2[0]:x2[1]]
+    crop3 = bin_img[y3[0]:y3[1], x3[0]:x3[1]]
+    crop4 = bin_img[y4[0]:y4[1], x4[0]:x4[1]]
+    crop5 = bin_img[y5[0]:y5[1], x5[0]:x5[1]]
+    crop6 = bin_img[y6[0]:y6[1], x6[0]:x6[1]]
+    crop7 = bin_img[y7[0]:y7[1], x7[0]:x7[1]]
 
     mean1 = int(crop1.mean())
     mean2 = int(crop2.mean())
@@ -233,39 +270,46 @@ def get_pokemon_image_id(img):
     bin_color = cv2.cvtColor(bin_img,cv2.COLOR_GRAY2BGR)
     
     height, width, channels = img.shape
-    if width == 320 and height == 525:
-        x1 = [288, 300]
-        y1 = [125, 195]    
-        crop1 = bin_img[y1[0]:y1[1], x1[0]:x1[1]]
+    
+    org_x1 = [288, 300]
+    org_y1 = [125, 195]
+    org_x2 = [264, 280]
+    org_y2 = [234, 250]    
+    org_x3 = [244, 260]
+    org_y3 = [254, 270]    
+    org_x4 = [224, 240]
+    org_y4 = [270, 286]    
+    org_x5 = [310, 318]
+    org_y5 = [220, 350]    
+    org_x6 = [280, 308]
+    org_y6 = [270, 350]    
+    org_x7 = [244, 278]
+    org_y7 = [300, 350]    
 
-        x2 = [264, 280]
-        y2 = [234, 250]    
-        crop2 = bin_img[y2[0]:y2[1], x2[0]:x2[1]]
+    scale = width/320
 
-        x3 = [244, 260]
-        y3 = [254, 270]    
-        crop3 = bin_img[y3[0]:y3[1], x3[0]:x3[1]]
-
-        x4 = [224, 240]
-        y4 = [270, 286]    
-        crop4 = bin_img[y4[0]:y4[1], x4[0]:x4[1]]
-
-        x5 = [310, 318]
-        y5 = [220, 350]    
-        crop5 = bin_img[y5[0]:y5[1], x5[0]:x5[1]]
-
-        x6 = [280, 308]
-        y6 = [270, 350]    
-        crop6 = bin_img[y6[0]:y6[1], x6[0]:x6[1]]
-
-        x7 = [244, 278]
-        y7 = [300, 350]    
-        crop7 = bin_img[y7[0]:y7[1], x7[0]:x7[1]]
-    else:
-        print('Unsuported image size')
-        session.close()
-        sys.exit(1)
-        return -1
+    x1 = [int(org_x1[0]*scale), int(org_x1[1]*scale)]
+    y1 = [int(org_y1[0]*scale), int(org_y1[1]*scale)]
+    x2 = [int(org_x2[0]*scale), int(org_x2[1]*scale)]
+    y2 = [int(org_y2[0]*scale), int(org_y2[1]*scale)]    
+    x3 = [int(org_x3[0]*scale), int(org_x3[1]*scale)]
+    y3 = [int(org_y3[0]*scale), int(org_y3[1]*scale)]    
+    x4 = [int(org_x4[0]*scale), int(org_x4[1]*scale)]
+    y4 = [int(org_y4[0]*scale), int(org_y4[1]*scale)]    
+    x5 = [int(org_x5[0]*scale), int(org_x5[1]*scale)]
+    y5 = [int(org_y5[0]*scale), int(org_y5[1]*scale)]    
+    x6 = [int(org_x6[0]*scale), int(org_x6[1]*scale)]
+    y6 = [int(org_y6[0]*scale), int(org_y6[1]*scale)]    
+    x7 = [int(org_x7[0]*scale), int(org_x7[1]*scale)]
+    y7 = [int(org_y7[0]*scale), int(org_y7[1]*scale)]    
+    
+    crop1 = bin_img[y1[0]:y1[1], x1[0]:x1[1]]
+    crop2 = bin_img[y2[0]:y2[1], x2[0]:x2[1]]
+    crop3 = bin_img[y3[0]:y3[1], x3[0]:x3[1]]
+    crop4 = bin_img[y4[0]:y4[1], x4[0]:x4[1]]
+    crop5 = bin_img[y5[0]:y5[1], x5[0]:x5[1]]
+    crop6 = bin_img[y6[0]:y6[1], x6[0]:x6[1]]
+    crop7 = bin_img[y7[0]:y7[1], x7[0]:x7[1]]
 
     mean1 = int(crop1.mean())
     mean2 = int(crop2.mean())
