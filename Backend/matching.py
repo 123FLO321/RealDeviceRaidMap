@@ -83,7 +83,6 @@ def fort_image_matching_imshow(url_img_name, fort_img_name):
     cv2.rectangle(fort_img,(74,74), (144, 246), (0, 0, 255), 2)
 
     cv2.imshow('matching result', url_img)
-#    cv2.imshow('tmp', fort_img)
     cv2.imshow('crop', crop)
     cv2.waitKey(0)
 
@@ -100,7 +99,4 @@ if __name__ == '__main__':
     print(url_img_path)
     print(fort_img_path)
     print(fort_image_matching_imshow(url_img_path,fort_img_path))
-#    print(fort_image_matching('/home/mizu/raidimage/GymMonDetectionPostgres/url_image/1.jpg','/home/mizu/raidimage/GymMonDetectionPostgres/Training/GymImage_82.png'))
-#    print(fort_image_matching_imshow('/Users/akira/raidimage/GymMonDetectionPostgres/success_img/Fort_103_url.jpg','/Users/akira/raidimage/GymMonDetectionPostgres/success_img/Fort_103.png'))
-
 
