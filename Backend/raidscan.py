@@ -57,7 +57,9 @@ not_a_fort_id = database.get_not_a_fort_id(session)
 def detectLevel(level_img):
     img_gray = cv2.cvtColor(level_img,cv2.COLOR_BGR2GRAY)
     ret,thresh1 = cv2.threshold(img_gray,240,255,cv2.THRESH_BINARY_INV)
-    level = int(cv2.sumElems(thresh1)[0]/level1_num + 0.2)
+    height, width, channel = level_img.shape()
+    scale = width/320
+    level = int(cv2.sumElems(thresh1)[0]/(level1_num*scale) + 0.2)
 #    cv2.imshow('level', thresh1)
 #    cv2.waitKey(0)
     return level
