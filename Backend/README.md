@@ -24,11 +24,11 @@ Backend for RealDeviceRaidMap. Identify Gym from Gym image and post extracted in
 5. Configure config.py to set your monocle database
 6. Run `python3.6 raidscan.py` from the command line. When first run, raid_images and pokemon_images tables are added automatically.
 7. Open another terminal and activate venv as in step 3
-8. Run `python3.6 downloadfortimg.py`. If you don't want to download whole fort image in database set `MAP_START` and `MAP_END`.
+8. Run `python3.6 downloadfortimg.py`. If you don't want to download whole fort images in database, set `MAP_START` and `MAP_END` in `config.py`.
 9. Wait finish download fort images, then run `python3.6 findfort.py`
 10. Open crop_backend.bash and edit `RDRM_HOME_PATH` to your RealDeviceRaidMap directory.
-11. Run `bach crop_backend.bash`. **Note. Currently Backend can't run with Frontend so Stop crop.bash before running crop_backend.bash**. No worry. Backend can identify gym images over 95% of gyms automatically (Without user input).
-12. Wait until all gyms are identified.
-13. `PokemonImage_xxx.png` files are stored in /unknown_img/ directory. Rename the file to `Pokemon_PokemonId.png`(e.g. `Pokemon_380.png` for Latias) and run `python3.6 manualsubmit.py`. This will train pokemon raid boss. Usually only one time training should be enough.
+11. Run `bach crop_backend.bash`. **Note. Currently Backend can't run with Frontend so Stop crop.bash before running crop_backend.bash**. Don't worry, Backend can identify gym images up to 99% of gyms automatically (without user input).
+12. Wait until all gyms are identified. Check `success_img` and `need_check_img` directory to make sure all gym images are correctly identified.
+13. `PokemonImage_xxx.png` files are stored in `unknown_img` directory. Rename the file to `Pokemon_PokemonId.png`(e.g. `Pokemon_380.png` for Latias) and run `python3.6 manualsubmit.py`. This will train pokemon raid boss. Usually only one time training should be enough.
 
 
