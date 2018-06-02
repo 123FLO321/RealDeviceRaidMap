@@ -50,7 +50,7 @@ def findfort_main():
         max_fort_id = 0
         max_url_fullpath_filename = ''
         new_img_count = 0
-        for fort_fullpath_filename in p.glob('*.png'):
+        for fort_fullpath_filename in p.glob('GymImage*.png'):
             new_img_count = new_img_count+1
             fort_filename = os.path.basename(fort_fullpath_filename)
             max_fort_id = 0
@@ -86,7 +86,7 @@ def findfort_main():
                 fort_result_file = os.getcwd() + '/success_img/Fort_' + str(max_fort_id) + '.png'
                 url_result_file = os.getcwd() + '/success_img/Fort_'+str(max_fort_id) + '_url.jpg'
                 shutil.move(fort_fullpath_filename, fort_result_file)
-                shutil.move(max_url_fullpath_filename, url_result_file)
+                shutil.copy(max_url_fullpath_filename, url_result_file)
                 print('Successfully found fort id:', max_fort_id)
             elif float(max_value) >= 0.85:
                 fort_result_file = os.getcwd() + '/need_check_img/Fort_' + str(max_fort_id) + '.png'

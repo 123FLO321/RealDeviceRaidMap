@@ -15,6 +15,8 @@ import database
 
 process_img_path = os.getcwd() + '/process_img/'
 copy_path = os.getcwd() + '/unknown_img/'
+not_find_path = os.getcwd() + '/not_find_img/'
+
 
 # Create directories if not exists
 file_path = os.path.dirname(process_img_path)
@@ -26,6 +28,12 @@ file_path = os.path.dirname(copy_path)
 if not os.path.exists(file_path):
     print('unknown_img directory created')
     os.makedirs(file_path)
+
+file_path = os.path.dirname(not_find_path)
+if not os.path.exists(file_path):
+    print('unknown_img directory created')
+    os.makedirs(file_path)
+
 
 p = Path(process_img_path)
 
@@ -151,7 +159,7 @@ def detectMon(img):
     height, width, channels = img.shape
     if width == 320 and height == 525:
         x1 = [288, 300]
-        y1 = [125, 195]    
+        y1 = [125, 195]
         crop1 = bin_img[y1[0]:y1[1], x1[0]:x1[1]]
 
         x2 = [264, 280]
@@ -369,14 +377,14 @@ def processRaidImage(raidfilename):
                 elif int(mon) == 0:
                     print('Pokemon image params are in database but the Pokemon is not known')
                     unknown_mon_name = 'PokemonImage_'+str(mon_image_id)+'.png'
-                    fullpath_dest = str(copy_path) + str(unknown_mon_name)
+                    fullpath_dest = str(not_find_path) + str(unknown_mon_name)
                     print(fullpath_dest)
                     shutil.copy2(raidfilename,fullpath_dest)
                 else: # int(mon) < 0
                     # Send mon image for training directory
                     print('Mon is not in database')
                     unknown_mon_name = 'PokemonImage_'+str(mon_image_id)+'.png'
-                    fullpath_dest = str(copy_path) + str(unknown_mon_name)
+                    fullpath_dest = str(not_find_path) + str(unknown_mon_name)
                     print(fullpath_dest)
                     shutil.copy2(raidfilename,fullpath_dest)
                     
