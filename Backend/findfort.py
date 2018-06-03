@@ -8,6 +8,9 @@ import matching as mt
 import database as db
 import raidscan as rs
 import time
+from logging import basicConfig, getLogger, FileHandler, StreamHandler, DEBUG, INFO, ERROR, Formatter
+
+LOG = getLogger('')
 
 unknown_image_path = os.getcwd() + '/unknown_img'
 url_image_path = os.getcwd() + '/url_img'
@@ -20,13 +23,13 @@ def findfort_main():
     # Check directories 
     file_path = os.path.dirname(unknown_image_path+'/')
     if not os.path.exists(file_path):
-        print('Cannot find unknow_img directory. Run raidscan.py to create the directory')    
+        LOG.info('Cannot find unknow_img directory. Run raidscan.py to create the directory')    
         return
 
     file_path = os.path.dirname(url_image_path+'/')
     if not os.path.exists(file_path):
-        print('Cannot find url_img directory. Run downloadfortimg.py')
-        print('to create the directory and download fort images')
+        LOG.info('Cannot find url_img directory. Run downloadfortimg.py')
+        LOG.info('to create the directory and download fort images')
         return
 
     # Create directories if not exists
@@ -44,7 +47,7 @@ def findfort_main():
     p_url = Path(url_image_path)
 
     while True:
-        print('Run find fort task')
+        LOG.info('Run find fort task')
         session = db.Session()
         max_value = 0.0
         max_fort_id = 0
@@ -66,46 +69,46 @@ def findfort_main():
                         max_fort_id = fort_id
                         max_url_fullpath_filename = url_fullpath_filename
                 except:
-                    print('Matching error')
-            print('fort_filename:',fort_filename, 'max_fort_id:',max_fort_id,'max_value:', max_value)
+                    LOG.error('Matching error')
+            LOG.info('fort_filename:{} max_fort_id: {} max_value: {}'.format(fort_filename,max_fort_id, max_value))
             if float(max_value) >= 0.90:
                 img = cv2.imread(str(fort_fullpath_filename),3)
                 gym_image_id = rs.get_gym_image_id(img)
                 gym_image_fort_id = db.get_gym_image_fort_id(session, gym_image_id)
                 if int(max_fort_id) == int(gym_image_fort_id):
-                    print('This gym image is already trained')
+                    LOG.info('This gym image is already trained')
                 else:
                     unknown_fort_id = db.get_unknown_fort_id(session)
-                    print('gym_images id:',gym_image_id,'fort_id:', gym_image_fort_id,'unknow_fort_id:',unknown_fort_id)
+                    LOG.info('gym_images id:{} fort_id:{} unknow_fort_id:{}'.format(gym_image_id,gym_image_fort_id,unknown_fort_id))
                     if gym_image_fort_id == unknown_fort_id:
                         db.update_gym_image(session,gym_image_id,max_fort_id)
                     else:
-                        print('The gym image is assigned as fort id:', gym_image_fort_id)
-                        print('If the fort id is not correct, delete the gym image id:', gym_image_id)
-                        print('and run submit.py again')       
+                        LOG.info('The gym image is assigned as fort id:', gym_image_fort_id)
+                        LOG.info('If the fort id is not correct, delete the gym image id:', gym_image_id)
+                        LOG.info('and run submit.py again')       
                 fort_result_file = os.getcwd() + '/success_img/Fort_' + str(max_fort_id) + '.png'
                 url_result_file = os.getcwd() + '/success_img/Fort_'+str(max_fort_id) + '_url.jpg'
                 shutil.move(fort_fullpath_filename, fort_result_file)
                 shutil.copy(max_url_fullpath_filename, url_result_file)
-                print('Successfully found fort id:', max_fort_id)
+                LOG.info('Successfully found fort id: {}'.format(max_fort_id))
             elif float(max_value) >= 0.85:
                 fort_result_file = os.getcwd() + '/need_check_img/Fort_' + str(max_fort_id) + '.png'
                 url_result_file = os.getcwd() + '/need_check_img/Fort_'+str(max_fort_id) + '_url.jpg'
                 shutil.move(fort_fullpath_filename, fort_result_file)
                 shutil.copy(max_url_fullpath_filename, url_result_file)
-                print('Found fort id:', max_fort_id, ', but need to verify')
+                LOG.info('Found fort id: {} but need to verify'.format(max_fort_id))
             else:
                 fort_result_file = os.getcwd() + '/not_find_img/' + str(fort_filename)
                 url_result_file = os.getcwd() + '/not_find_img/'+str(max_fort_id) + '.jpg'
-                shutil.move(fort_fullpath_filename, fort_result_file)
+                shutil.move(fort_fullpath_filename, fort_result_file)p
                 shutil.copy(max_url_fullpath_filename, url_result_file)
-                print('Can not find fort:', max_fort_id, ', check the image in not_find_img')
+                LOG.info('Can not find fort: {}, check the image in not_find_img'.format(max_fort_id))
 
-        print(new_img_count, 'new fort image processed')
+        LOG.info('{} new fort image processed'.format(new_img_count))
         session.close()
         time.sleep(30) # task runs every 10 seconds
 
-    print('Done')
+    LOG.info('Done')
     return
     
 if __name__ == '__main__':

@@ -8,32 +8,41 @@ import math
 import shutil
 from PIL import Image
 import pytesseract
-import csv
 import datetime
+from logging import basicConfig, getLogger, FileHandler, StreamHandler, DEBUG, INFO, ERROR, Formatter
 import time
 import database
+
+log_fmt='%(asctime)s [%(filename)-12.12s] [%(levelname)-5.5s]  %(message)s'
+logFormatter = Formatter(log_fmt)
+logpath = os.getcwd()+'/raidscan.log'
+basicConfig(filename=logpath, format=log_fmt, level=DEBUG)
+
+LOG = getLogger('')
+console=StreamHandler();
+console.setLevel(DEBUG)
+console.setFormatter(logFormatter)
+LOG.addHandler(console)
 
 process_img_path = os.getcwd() + '/process_img/'
 copy_path = os.getcwd() + '/unknown_img/'
 not_find_path = os.getcwd() + '/not_find_img/'
 
-
 # Create directories if not exists
 file_path = os.path.dirname(process_img_path)
 if not os.path.exists(file_path):
-    print('process_img directory created')
+    LOG.info('process_img directory created')
     os.makedirs(file_path)
 
 file_path = os.path.dirname(copy_path)
 if not os.path.exists(file_path):
-    print('unknown_img directory created')
+    LOG.info('unknown_img directory created')
     os.makedirs(file_path)
 
 file_path = os.path.dirname(not_find_path)
 if not os.path.exists(file_path):
-    print('unknown_img directory created')
+    LOG.info('not_find_img directory created')
     os.makedirs(file_path)
-
 
 p = Path(process_img_path)
 
@@ -43,12 +52,12 @@ level1_num = 328950.0
 session = database.Session()
 
 gym_db = [gym for gym in database.get_gym_images(session)]
-print(len(gym_db),'gym images loaded')
+LOG.info('{} gym images loaded'.format(len(gym_db)))
 #for gym in gym_db:
-#    print(gym.id, gym.fort_id, gym.param_1, gym.param_2, gym.param_3, gym.param_4, gym.param_5, gym.param_6)
+#    LOG.debug('%d %d %d %d %d %d %d %d', gym.id, gym.fort_id, gym.param_1, gym.param_2, gym.param_3, gym.param_4, gym.param_5, gym.param_6)
 
 mon_db = [mon for mon in database.get_pokemon_images(session)]
-print(len(mon_db),'pokemon images loaded')
+LOG.info('{} pokemon images loaded'.format(len(mon_db)))
 
 unknown_fort_id = database.get_unknown_fort_id(session)
 not_a_fort_id = database.get_not_a_fort_id(session)
@@ -57,9 +66,9 @@ not_a_fort_id = database.get_not_a_fort_id(session)
 def detectLevel(level_img):
     img_gray = cv2.cvtColor(level_img,cv2.COLOR_BGR2GRAY)
     ret,thresh1 = cv2.threshold(img_gray,240,255,cv2.THRESH_BINARY_INV)
-    height, width, channel = level_img.shape()
+    height, width, channel = level_img.shape
     scale = width/320
-    level = int(cv2.sumElems(thresh1)[0]/(level1_num*scale) + 0.2)
+    level = int(cv2.sumElems(thresh1)[0]/(level1_num*scale*scale) + 0.2)
 #    cv2.imshow('level', thresh1)
 #    cv2.waitKey(0)
     return level
@@ -91,6 +100,7 @@ def detectGym(raid_img):
     org_left_w = 25
     
     scale = width/320
+    LOG.info('scale: {}'.format(scale))
 
     top_y = int(org_top_y*scale)
     top_h = int(org_top_h*scale)
@@ -115,8 +125,8 @@ def detectGym(raid_img):
     gym_id = 0
     gym_image_id = 0
 
-    print('Gyms in gym_images:',len(gym_db))
-#    print(top_mean0,top_mean1,top_mean2,left_mean0,left_mean1,left_mean2)
+    LOG.info('Gyms in gym_images: {}'.format(len(gym_db)))
+    LOG.debug('top_mean0:{} top_mean1:{} top_mean2:{} left_mean0:{} left_mean1:{} left_mean2:{} '.format(top_mean0,top_mean1,top_mean2,left_mean0,left_mean1,left_mean2))
 
     for gym in gym_db:
         dif1 = pow(top_mean0 - gym.param_1,2)
@@ -134,16 +144,16 @@ def detectGym(raid_img):
             gym_image_id = gym.id
 
     if min_error > 10:
-        print(gym_id, min_error)
-        print('GymImage added to database')
+        LOG.info('gym_id:{} min_error:{}'.format(gym_id, min_error))
+        LOG.info('GymImage added to database')
         gym_id = -1
         database.add_gym_image(session,unknown_fort_id,top_mean0,top_mean1,top_mean2,left_mean0,left_mean1,left_mean2)
         gym_image_id = database.get_gym_image_id(session,top_mean0,top_mean1,top_mean2,left_mean0,left_mean1,left_mean2)
-        print('GymImage reloaded')
         # Reload gym_images
         gym_db = [ gym for gym in database.get_gym_images(session)]
 #        for gym in gym_db:
-#            print(gym.id, gym.fort_id, gym.param_1, gym.param_2, gym.param_3, gym.param_4, gym.param_5, gym.param_6)
+#            LOG.debug('{} {} {} {} {} {} {} {}'.format(gym.id, gym.fort_id, gym.param_1, gym.param_2, gym.param_3, gym.param_4, gym.param_5, gym.param_6))
+        LOG.info('GymImage reloaded : {}'.format(len(gym_db)))
         
     return gym_image_id, gym_id, min_error
 
@@ -206,6 +216,7 @@ def detectMon(img):
     org_y7 = [300, 350]    
 
     scale = width/320
+    LOG.info('raid image scale :{}'.format(scale))
 
     x1 = [int(org_x1[0]*scale), int(org_x1[1]*scale)]
     y1 = [int(org_y1[0]*scale), int(org_y1[1]*scale)]
@@ -334,8 +345,8 @@ def detectEgg(data):
 def getHatchTime(data):
     zero = datetime.datetime.now().replace(hour=0,minute=0,second=0,microsecond=0)
     unix_zero = zero.timestamp()
-    #print(zero, int(unix_zero))
-    print('hatch_time =',data)
+    LOG.info('hatch_time ={}'.format(data))
+    # US format
     AM = data.find('AM')
     if AM >= 5:
         hour_min = data[:AM-1].split(':')
@@ -346,13 +357,15 @@ def getHatchTime(data):
         if hour_min[0] == '12':
             return int(unix_zero)+int(hour_min[0])*3600+int(hour_min[1])*60
         else:
-            return int(unix_zero)+(int(hour_min[0])+12)*3600+int(hour_min[1])*60   
+            return int(unix_zero)+(int(hour_min[0])+12)*3600+int(hour_min[1])*60
+    # Europe format
+    
 
 def isRaidSighting(img):
     ret = True
-    #print('image mean',img.mean())
+    LOG.debug('image mean :{}'.format(img.mean()))
     if int(img.mean()) > 240:
-        #print('No raid sightings')
+        LOG.debug('No raid sightings')
         ret = False
     return ret
 
@@ -363,7 +376,7 @@ def processRaidImage(raidfilename):
     now = datetime.datetime.now()
     unix_time = int(now.timestamp())
     file_update_time = int(os.stat(str(raidfilename)).st_mtime)
-    #print(str(unix_time-file_update_time))
+    LOG.debug('Image was created {} seconds ago'.format(str(unix_time-file_update_time)))
 
     if isRaidSighting(img_full) == False:
         os.remove(raidfilename)
@@ -387,7 +400,7 @@ def processRaidImage(raidfilename):
     update_raid = True    
     # old file
     if unix_time - file_update_time > 1800:
-        print("File is too old")
+        LOG.info('File is too old')
         update_raid = False
     if int(gym) > 0 and int(gym) != not_a_fort_id and int(gym) != unknown_fort_id:
         if egg == True:
@@ -395,59 +408,59 @@ def processRaidImage(raidfilename):
             spawn_time = hatch_time - 3600
             end_time = hatch_time + 2700
             time_battle = database.get_raid_battle_time(session, gym)
-            print("Egg", level, time_text, gym, error_gym, hatch_time, time_battle)
+            LOG.info('Egg: level={} time_text={} gym={} error_gym={} hatch_time={} time_battle={}'.format(level, time_text, gym, error_gym, hatch_time, time_battle))
             if update_raid == True:
                 if int(time_battle) == int(hatch_time):
-                    print('This Egg is already assigned.')
+                    LOG.info('This Egg is already assigned.')
                 else:
                     database.update_raid_egg(session, gym, level, hatch_time)
                     database.updata_fort_sighting(session, gym, unix_time)
-                    print('New Egg is added.')
+                    LOG.info('New Egg is added.')
             else:
-                print('Skip update raid due to old file')
+                LOG.info('Skip update raid due to old file')
         else:
             mon_image_id, mon, error_mon = detectMon(img_full)
             pokemon_id = database.get_raid_pokemon_id(session, gym)
-            print("Pokemon", level, time_text, gym, error_gym, mon, error_mon)
-            print('mon:',mon,'pokemon_id:',pokemon_id)
+            LOG.info('Pokemon: level={} time_text={} gym={} error_gym={} mon={} error_mon={}'.format(level, time_text, gym, error_gym, mon, error_mon))
+            LOG.info('mon:{} pokemon_id:{}'.format(mon,pokemon_id))
             if int(mon) == int(pokemon_id) and int(mon) > 0:
-                print("This mon is already assigned.")
+                LOG.info('This mon is already assigned.')
             else:            
                 if int(mon) > 0:
                     if update_raid == True:
                         database.update_raid_mon(session, gym, mon)
                         database.updata_fort_sighting(session, gym, unix_time)
-                        print('New raid boss is added.')
+                        LOG.info('New raid boss is added.')
                     else:
-                        print('Skip update raid due to old file')
+                        LOG.info('Skip update raid due to old file')
                 elif int(mon) == 0:
-                    print('Pokemon image params are in database but the Pokemon is not known')
+                    LOG.info('Pokemon image params are in database but the Pokemon is not known')
                     unknown_mon_name = 'PokemonImage_'+str(mon_image_id)+'.png'
                     fullpath_dest = str(not_find_path) + str(unknown_mon_name)
-                    print(fullpath_dest)
+                    LOG.info(fullpath_dest)
                     shutil.copy2(raidfilename,fullpath_dest)
                 else: # int(mon) < 0
                     # Send mon image for training directory
-                    print('Mon is not in database')
+                    LOG.info('Mon is not in database')
                     unknown_mon_name = 'PokemonImage_'+str(mon_image_id)+'.png'
                     fullpath_dest = str(not_find_path) + str(unknown_mon_name)
-                    print(fullpath_dest)
+                    LOG.info(fullpath_dest)
                     shutil.copy2(raidfilename,fullpath_dest)
                     
     elif int(gym) == not_a_fort_id:
-        print('Raid image is not valid')
+        LOG.info('Raid image is not valid')
     elif int(gym) == unknown_fort_id and egg == True:
         # Send Image to Training Directory
-        print('Gym image params are in database but the Gym is not known')
+        LOG.info('Gym image params are in database but the Gym is not known')
         unknown_gym_name = 'GymImage_'+str(gym_image_id)+'.png'
         fullpath_dest = str(copy_path) + str(unknown_gym_name)
-        print(fullpath_dest)
+        LOG.info(fullpath_dest)
         shutil.copy2(raidfilename,fullpath_dest)
     elif int(gym) == -1 and egg == True: # int(gym) < 0
         # Send gym image for training directory
         unknown_gym_name = 'GymImage_'+str(gym_image_id)+'.png'
         fullpath_dest = str(copy_path) + str(unknown_gym_name)
-        print(fullpath_dest)
+        LOG.info(fullpath_dest)
         shutil.copy2(raidfilename,fullpath_dest)
 
     os.remove(raidfilename)

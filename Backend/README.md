@@ -28,7 +28,8 @@ Download all fort URL images in `Forts` table. Set `MAP_START` and `MAP_END` in 
 1. Run `python3.6 downloadfortimg.py` once to download all gym(fort) URL image
 2. Run `python3.6 raidscan.py` to scan raid images
 3. Run `python3.6 findfort.py` to find gym if there is unknow gym
-4. Run `python3.6 manualsubmit.py` once you set `Fort_xxx.png` and `Pokemon_yyy.png` in `not_find_img` directory.
+4. Run `bash crop_backend.bash` to crop captured screenshot and send to `process_img` folder for `raidscan.py`
+5. Run `python3.6 manualsubmit.py` once you set `Fort_xxx.png` and `Pokemon_yyy.png` in `not_find_img` directory.
 
 ## Setting up
 1. Install Python 3.6 (<https://www.python.org/downloads/release/python-365/>)

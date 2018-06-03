@@ -11,8 +11,10 @@ from sqlalchemy.orm import sessionmaker, relationship, eagerload, foreign, remot
 from sqlalchemy.types import TypeDecorator, Numeric, Text, TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
-
 from config import DB_ENGINE
+from logging import basicConfig, getLogger, FileHandler, StreamHandler, DEBUG, INFO, ERROR, Formatter
+
+LOG = getLogger('')
 
 if DB_ENGINE.startswith('mysql'):
     from sqlalchemy.dialects.mysql import TINYINT, MEDIUMINT, BIGINT, DOUBLE, LONGTEXT
@@ -253,12 +255,12 @@ def add_gym_image(session,fort_id,top_mean0,top_mean1,top_mean2,left_mean0,left_
 def update_gym_image(session,gym_image_id,gym_image_fort_id):
     gym_image = session.query(GymImage).filter_by(id=gym_image_id).first()
     if gym_image is None:
-        print('No gym image found with id:', gym_image_fort_id)
+        LOG.info('No gym image found with id:{}'.format(gym_image_fort_id))
         return False
     else:
         gym_image.fort_id = gym_image_fort_id
         session.commit()
-        print('gym image',gym_image_id,'is set to fort_id',gym_image_fort_id)
+        LOG.info('gym image {} is set to fort_id {}'.format(gym_image_id,gym_image_fort_id))
         return True
 
 def add_pokemon_image(session,mon_id,mean1,mean2,mean3,mean4,mean5,mean6,mean7):
@@ -268,12 +270,12 @@ def add_pokemon_image(session,mon_id,mean1,mean2,mean3,mean4,mean5,mean6,mean7):
 def update_pokemon_image(session,pokemon_image_id, pokemon_id):
     pokemon_image = session.query(PokemonImage).filter_by(id=pokemon_image_id).first()
     if pokemon_image is None:
-        print('No pokemon image found with id:', pokemon_image_id)
+        LOG.info('No pokemon image found with id: {}'.format(pokemon_image_id))
         return False
     else:
         pokemon_image.pokemon_id = pokemon_id
         session.commit()
-        print('pokemon image',pokemon_image_id,'is set to pokemon_id',pokemon_id)
+        LOG.info('pokemon image {} is set to pokemon_id {}'.format(pokemon_image_id,pokemon_id))
         return True        
 
 def get_gym_image_id(session,top_mean0,top_mean1,top_mean2,left_mean0,left_mean1,left_mean2):
