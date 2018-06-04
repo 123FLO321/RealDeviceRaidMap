@@ -100,7 +100,7 @@ def findfort_main():
             else:
                 fort_result_file = os.getcwd() + '/not_find_img/' + str(fort_filename)
                 url_result_file = os.getcwd() + '/not_find_img/'+str(max_fort_id) + '.jpg'
-                shutil.move(fort_fullpath_filename, fort_result_file)p
+                shutil.move(fort_fullpath_filename, fort_result_file)
                 shutil.copy(max_url_fullpath_filename, url_result_file)
                 LOG.info('Can not find fort: {}, check the image in not_find_img'.format(max_fort_id))
 

@@ -348,19 +348,24 @@ def getHatchTime(data):
     LOG.info('hatch_time ={}'.format(data))
     # US format
     AM = data.find('AM')
+    PM = data.find('PM')
     if AM >= 5:
         hour_min = data[:AM-1].split(':')
         return int(unix_zero)+int(hour_min[0])*3600+int(hour_min[1])*60
-    PM = data.find('PM')
-    if PM >= 5:
+    elif PM >= 5:
         hour_min = data[:PM-1].split(':')
         if hour_min[0] == '12':
             return int(unix_zero)+int(hour_min[0])*3600+int(hour_min[1])*60
         else:
             return int(unix_zero)+(int(hour_min[0])+12)*3600+int(hour_min[1])*60
     # Europe format
-    
-
+    else:
+        data.replace('~','')
+        data.replace('-','')
+        data.replace(' ','')
+        hour_min = data.split(':')
+        return int(unix_zero)+int(hour_min[0])*3600+int(hour_min[1])*60
+        
 def isRaidSighting(img):
     ret = True
     LOG.debug('image mean :{}'.format(img.mean()))
