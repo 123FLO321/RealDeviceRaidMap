@@ -387,13 +387,18 @@ def processRaidImage(raidfilename):
         os.remove(raidfilename)
         return False
 
-    x1 = [0, 319]
-    y1 = [406, 450]
+    height, width, channel = img_full.shape
+    
+    scale = width/320
+
+    x1 = [0, int(319*scale)]
+    y1 = [int(406*scale), int(450*scale)]    
     time_img = img_full[y1[0]:y1[1], x1[0]:x1[1]]    
     #cv2.rectangle(img_egg,(x1[0],y1[0]),(x1[1],y1[1]),(0,255,0),1)
 
-    x2 = [0, 319]
-    y2 = [476, 524]
+    
+    x2 = [0, int(319*scale)]
+    y2 = [int(476*scale), int(524*scale)]
     level_img = img_full[y2[0]:y2[1], x2[0]:x2[1]]    
     #cv2.rectangle(img_egg,(x2[0],y2[0]),(x2[1],y2[1]),(0,255,0),1)    
 

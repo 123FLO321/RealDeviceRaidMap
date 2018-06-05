@@ -71,7 +71,7 @@ def findfort_main():
                 except:
                     LOG.error('Matching error')
             LOG.info('fort_filename:{} max_fort_id: {} max_value: {}'.format(fort_filename,max_fort_id, max_value))
-            if float(max_value) >= 0.90:
+            if float(max_value) >= 0.85:
                 img = cv2.imread(str(fort_fullpath_filename),3)
                 gym_image_id = rs.get_gym_image_id(img)
                 gym_image_fort_id = db.get_gym_image_fort_id(session, gym_image_id)
@@ -91,7 +91,7 @@ def findfort_main():
                 shutil.move(fort_fullpath_filename, fort_result_file)
                 shutil.copy(max_url_fullpath_filename, url_result_file)
                 LOG.info('Successfully found fort id: {}'.format(max_fort_id))
-            elif float(max_value) >= 0.85:
+            elif float(max_value) >= 0.80:
                 fort_result_file = os.getcwd() + '/need_check_img/Fort_' + str(max_fort_id) + '.png'
                 url_result_file = os.getcwd() + '/need_check_img/Fort_'+str(max_fort_id) + '_url.jpg'
                 shutil.move(fort_fullpath_filename, fort_result_file)
