@@ -1,9 +1,0 @@
-opencv-python>=3.4.1.15
-opencv-contrib-python>=3.4.1.15
-pillow>=5.1.0
-pytesseract>=0.2.2
-SQLAlchemy>=1.2.8
-requests>=2.18.4
-mysqlclient>=1.3.12
-psycopg2>=2.7.4
-psycopg2-binary>=2.7.4
