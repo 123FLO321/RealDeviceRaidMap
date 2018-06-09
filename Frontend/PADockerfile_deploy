@@ -1,5 +1,0 @@
-FROM perfectassistant/raid-map:latest
-COPY .build_lin/release/Raid-Map /perfect-deployed/raid-map/
-COPY webroot /perfect-deployed/raid-map/webroot
-RUN rm -rf /var/lib/apt/lists/*
-CMD cd /perfect-deployed/raid-map/ && ./Raid-Map
