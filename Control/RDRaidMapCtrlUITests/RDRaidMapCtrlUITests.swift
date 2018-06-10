@@ -56,7 +56,7 @@ class TestAppTestUITests: XCTestCase {
         
         while true {
             
-            if roundCount >= 100 {
+            if roundCount >= Int(600 / (screenshotDelay + 1)) {
                 app.terminate()
             }
             
@@ -97,13 +97,16 @@ class TestAppTestUITests: XCTestCase {
                         sleep(2)
                     }
                     if app.state == .runningForeground {
-                        coordNearby.tap()
+                        for _ in 0...5 {
+                            coordNearby.tap()
+                            usleep(10000)
+                        }
                         sleep(2)
                     }
-                    for _ in 0...5 {
+                    for _ in 0...20 {
                         if app.state == .runningForeground {
                             coordRaids.tap()
-                            usleep(10000)
+                            usleep(1000)
                         }
                     }
                     isStartupCompleted = true
