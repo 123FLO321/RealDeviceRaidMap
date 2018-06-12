@@ -32,6 +32,7 @@ class TestAppTestUITests: XCTestCase {
         var startupImageSize = 0
         var roundCount = 0
         
+        app.terminate()        
         app.activate()
         sleep(1)
         let normalized = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
