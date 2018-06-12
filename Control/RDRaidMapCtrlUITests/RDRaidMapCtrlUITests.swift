@@ -27,8 +27,8 @@ class TestAppTestUITests: XCTestCase {
         
         let app = XCUIApplication(bundleIdentifier: "com.nianticlabs.pokemongo")
         var startupCount = 0
-        var isStarted = !(app.state == .notRunning)
-        var isStartupCompleted = !(app.state == .notRunning)
+        var isStarted = false
+        var isStartupCompleted = false
         var startupImageSize = 0
         var roundCount = 0
         
