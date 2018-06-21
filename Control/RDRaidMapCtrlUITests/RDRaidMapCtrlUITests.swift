@@ -60,7 +60,7 @@ class TestAppTestUITests: XCTestCase {
             coordWeather2 = normalized.withOffset(CGVector(dx: 768, dy: 2000))
         } else if app.frame.size.width == 320 { //iPhoneSE
             coordStartup = normalized.withOffset(CGVector(dx: 325, dy: 655))
-            coordPassenger = normalized.withOffset(CGVector(dx: 225, dy: 790))
+            coordPassenger = normalized.withOffset(CGVector(dx: 230, dy: 790))
             coordNearby = normalized.withOffset(CGVector(dx: 550, dy: 1040))
             coordRaids = normalized.withOffset(CGVector(dx: 470, dy: 335))
             coordWeather1 = normalized.withOffset(CGVector(dx: 0, dy: 0))
