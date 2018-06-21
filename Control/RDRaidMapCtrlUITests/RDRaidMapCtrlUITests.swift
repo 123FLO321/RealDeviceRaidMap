@@ -57,8 +57,14 @@ class TestAppTestUITests: XCTestCase {
             coordNearby = normalized.withOffset(CGVector(dx: 1387, dy: 1873))
             coordRaids = normalized.withOffset(CGVector(dx: 1124, dy: 120))
             coordWeather1 = normalized.withOffset(CGVector(dx: 1300, dy: 1700))
-            coordWeather2 = normalized.withOffset(CGVector(dx: 768, dy: 2000
-            ))
+            coordWeather2 = normalized.withOffset(CGVector(dx: 768, dy: 2000))
+        } else if app.frame.size.width == 320 { //iPhoneSE
+            coordStartup = normalized.withOffset(CGVector(dx: 325, dy: 655))
+            coordPassenger = normalized.withOffset(CGVector(dx: 225, dy: 790))
+            coordNearby = normalized.withOffset(CGVector(dx: 550, dy: 1040))
+            coordRaids = normalized.withOffset(CGVector(dx: 470, dy: 335))
+            coordWeather1 = normalized.withOffset(CGVector(dx: 0, dy: 0))
+            coordWeather2 = normalized.withOffset(CGVector(dx: 0, dy: 0))
         } else {
             fatalError("Unsupported iOS modell. Please report this in our Discord!")
         }
