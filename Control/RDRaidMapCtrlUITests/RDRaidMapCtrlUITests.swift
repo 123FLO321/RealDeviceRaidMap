@@ -44,25 +44,32 @@ class TestAppTestUITests: XCTestCase {
         let coordWeather1: XCUICoordinate
         let coordWeather2: XCUICoordinate
         
-        if app.frame.size.width == 375 { //iPhone
+        if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
             coordStartup = normalized.withOffset(CGVector(dx: 375, dy: 800))
             coordPassenger = normalized.withOffset(CGVector(dx: 275, dy: 950))
             coordNearby = normalized.withOffset(CGVector(dx: 600, dy: 1200))
             coordRaids = normalized.withOffset(CGVector(dx: 550, dy: 450))
             coordWeather1 = normalized.withOffset(CGVector(dx: 0, dy: 0))
             coordWeather2 = normalized.withOffset(CGVector(dx: 0, dy: 0))
-        } else if app.frame.size.width == 768 { //iPad
+        } else if app.frame.size.width == 768 { //iPad 9,7 (Air, Air2, ...)
             coordStartup = normalized.withOffset(CGVector(dx: 768, dy: 1234))
             coordPassenger = normalized.withOffset(CGVector(dx: 768, dy: 1567))
             coordNearby = normalized.withOffset(CGVector(dx: 1387, dy: 1873))
             coordRaids = normalized.withOffset(CGVector(dx: 1124, dy: 120))
             coordWeather1 = normalized.withOffset(CGVector(dx: 1300, dy: 1700))
             coordWeather2 = normalized.withOffset(CGVector(dx: 768, dy: 2000))
-        } else if app.frame.size.width == 320 { //iPhoneSE
+        } else if app.frame.size.width == 320 { //iPhone Small (5S, SE, ...)
             coordStartup = normalized.withOffset(CGVector(dx: 325, dy: 655))
             coordPassenger = normalized.withOffset(CGVector(dx: 230, dy: 790))
             coordNearby = normalized.withOffset(CGVector(dx: 550, dy: 1040))
             coordRaids = normalized.withOffset(CGVector(dx: 470, dy: 335))
+            coordWeather1 = normalized.withOffset(CGVector(dx: 0, dy: 0))
+            coordWeather2 = normalized.withOffset(CGVector(dx: 0, dy: 0))
+        } else if app.frame.size.width == 414 { //iPhone Large (6+, 7+, ...)
+            coordStartup = normalized.withOffset(CGVector(dx: 624, dy: 1277))
+            coordPassenger = normalized.withOffset(CGVector(dx: 642, dy: 1542))
+            coordNearby = normalized.withOffset(CGVector(dx: 1160, dy: 2020))
+            coordRaids = normalized.withOffset(CGVector(dx: 954, dy: 656))
             coordWeather1 = normalized.withOffset(CGVector(dx: 0, dy: 0))
             coordWeather2 = normalized.withOffset(CGVector(dx: 0, dy: 0))
         } else {
