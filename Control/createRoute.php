@@ -71,13 +71,10 @@ if ($DB_TYPE == "mysql") {
 			FROM forts
 			WHERE lat >= ".$MIN_LAT." AND lat <= ".$MAX_LAT." AND lon >= ".$MIN_LON." AND lon <= ".$MAX_LON;
 	$result = pg_query($db, $req);
-	$data = array();
-	if ($result->num_rows > 0) {
-		$i = 0;
-		while ($row = pg_fetch_object($result)) {
-			$gyms[$i] = $row;
-			$i ++;
-		}
+	$i = 0;
+	while ($data = pg_fetch_object($result)) {
+		$gyms[$i] = $data;
+		$i ++;
 	}
 }
 
