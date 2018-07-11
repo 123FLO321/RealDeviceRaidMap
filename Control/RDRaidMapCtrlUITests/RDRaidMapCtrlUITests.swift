@@ -9,7 +9,7 @@ import XCTest
 
 class TestAppTestUITests: XCTestCase {
     
-    let screenshotDelay: UInt32 = 4 // real delay is one higher
+    let screenshotDelay: Float = 0.5 // real deleay ~0.5 seconds higher
     
     override func setUp() {
         super.setUp()
@@ -23,7 +23,6 @@ class TestAppTestUITests: XCTestCase {
     }
     
     func testExample() {
-        
         
         let app = XCUIApplication(bundleIdentifier: "com.nianticlabs.pokemongo")
         var startupCount = 0
@@ -98,7 +97,11 @@ class TestAppTestUITests: XCTestCase {
             
             if app.state == .runningForeground {
                 coordPassenger.tap()
-                sleep(1)
+                if screenshotDelay >= 1 {
+                    sleep(1)
+                } else {
+                    usleep(useconds_t(screenshotDelay * 1000000))
+                }
             }
             let screenshot = XCUIScreen.main.screenshot()
             let screenshotSize = screenshot.pngRepresentation.count
@@ -143,16 +146,19 @@ class TestAppTestUITests: XCTestCase {
                     isStartupCompleted = true
                 } else {
                     print("App is running")
-                    coordWeather1.tap()
-                    coordWeather2.tap()
                     
-                    
-                    
-                    
+                    if roundCount % Int(30 / (screenshotDelay + 1)) == 0 {
+                        coordWeather1.tap()
+                        sleep(1)
+                        coordWeather2.tap()
+                    }
+        
                     let attachment = XCTAttachment(screenshot: screenshot)
                     attachment.lifetime = .keepAlways
                     add(attachment)
-                    sleep(screenshotDelay)
+                    if screenshotDelay > 1 {
+                        usleep(useconds_t((screenshotDelay - 1) * 1000000))
+                    }
                 }
             } else if screenshotSize > startupImageSize - 100000 && screenshotSize < startupImageSize + 100000 {
                 print("App still in Startup")
