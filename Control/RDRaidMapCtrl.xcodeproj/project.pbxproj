@@ -13,7 +13,6 @@
 		2E9CC4B020A97F7A004355DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E9CC4AF20A97F7A004355DE /* Assets.xcassets */; };
 		2E9CC4B320A97F7A004355DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E9CC4B120A97F7A004355DE /* LaunchScreen.storyboard */; };
 		2E9CC4BE20A97F7A004355DE /* RDRaidMapCtrlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9CC4BD20A97F7A004355DE /* RDRaidMapCtrlUITests.swift */; };
-		2E9CC4C920A982C7004355DE /* Route1.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 2E9CC4C820A982C7004355DE /* Route1.gpx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +36,6 @@
 		2E9CC4B920A97F7A004355DE /* RDRaidMapCtrlUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RDRaidMapCtrlUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E9CC4BD20A97F7A004355DE /* RDRaidMapCtrlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDRaidMapCtrlUITests.swift; sourceTree = "<group>"; };
 		2E9CC4BF20A97F7A004355DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2E9CC4C820A982C7004355DE /* Route1.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Route1.gpx; sourceTree = "<group>"; };
-		2E9CC4CC20A9A800004355DE /* Route2.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Route2.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,8 +90,6 @@
 		2E9CC4BC20A97F7A004355DE /* RDRaidMapCtrlUITests */ = {
 			isa = PBXGroup;
 			children = (
-				2E9CC4C820A982C7004355DE /* Route1.gpx */,
-				2E9CC4CC20A9A800004355DE /* Route2.gpx */,
 				2E9CC4BD20A97F7A004355DE /* RDRaidMapCtrlUITests.swift */,
 				2E9CC4BF20A97F7A004355DE /* Info.plist */,
 			);
@@ -194,7 +189,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E9CC4C920A982C7004355DE /* Route1.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
