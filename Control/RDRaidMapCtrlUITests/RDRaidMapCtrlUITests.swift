@@ -5,14 +5,27 @@
 //  Created on 14.05.18.
 //
 
+import Foundation
 import XCTest
 
 class TestAppTestUITests: XCTestCase {
     
-    let screenshotDelay: Float = 1
+    var screenshotDelay: Float = 1
+    var uuid: String?
+    var pokemon = false
     
     override func setUp() {
         super.setUp()
+        
+        if let value = Float(ProcessInfo.processInfo.environment["DELAY"] ?? "") {
+            screenshotDelay = value
+        }
+        if let value = ProcessInfo.processInfo.environment["UUID"] {
+            uuid = value
+        }
+        if let value = Bool(ProcessInfo.processInfo.environment["POKEMON"] ?? "") {
+            pokemon = value
+        }
         
         continueAfterFailure = true
     }
@@ -31,6 +44,9 @@ class TestAppTestUITests: XCTestCase {
                 let screenshot = XCUIScreen.main.screenshot()
                 let attachment = XCTAttachment(screenshot: screenshot)
                 attachment.lifetime = .keepAlways
+                if let uuid = self.uuid {
+                    attachment.name = "\(uuid)_\(Int(Date().timeIntervalSince1970))_\(UUID().uuidString)"
+                }
                 self.add(attachment)
             }
         }
@@ -142,12 +158,14 @@ class TestAppTestUITests: XCTestCase {
                         }
                         sleep(2)
                     }
-                    for _ in 0...20 {
-                        if app.state == .runningForeground {
-                            coordPassenger.tap()
-                            usleep(1000)
-                            coordRaids.tap()
-                            usleep(1000)
+                    if !pokemon {
+                        for _ in 0...20 {
+                            if app.state == .runningForeground {
+                                coordPassenger.tap()
+                                usleep(1000)
+                                coordRaids.tap()
+                                usleep(1000)
+                            }
                         }
                     }
                     isStartupCompleted = true
