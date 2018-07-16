@@ -104,7 +104,7 @@ class TestAppTestUITests: XCTestCase {
         
         while true {
             
-            if roundCount >= Int(600 / (screenshotDelay + 1)) {
+            if roundCount >= 120 {
                 app.terminate()
             }
             
