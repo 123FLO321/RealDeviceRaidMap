@@ -69,6 +69,7 @@ class TestAppTestUITests: XCTestCase {
         let coordRaids: XCUICoordinate
         let coordWeather1: XCUICoordinate
         let coordWeather2: XCUICoordinate
+        let coordWarning: XCUICoordinate
         
         if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
             coordStartup = normalized.withOffset(CGVector(dx: 375, dy: 800))
@@ -77,6 +78,7 @@ class TestAppTestUITests: XCTestCase {
             coordRaids = normalized.withOffset(CGVector(dx: 550, dy: 450))
             coordWeather1 = normalized.withOffset(CGVector(dx: 0, dy: 0))
             coordWeather2 = normalized.withOffset(CGVector(dx: 0, dy: 0))
+            coordWarning = normalized.withOffset(CGVector(dx: 0, dy: 0))
         } else if app.frame.size.width == 768 { //iPad 9,7 (Air, Air2, ...)
             coordStartup = normalized.withOffset(CGVector(dx: 768, dy: 1234))
             coordPassenger = normalized.withOffset(CGVector(dx: 768, dy: 1567))
@@ -84,6 +86,7 @@ class TestAppTestUITests: XCTestCase {
             coordRaids = normalized.withOffset(CGVector(dx: 1124, dy: 120))
             coordWeather1 = normalized.withOffset(CGVector(dx: 1300, dy: 1700))
             coordWeather2 = normalized.withOffset(CGVector(dx: 768, dy: 2000))
+            coordWarning = normalized.withOffset(CGVector(dx: 0, dy: 0))
         } else if app.frame.size.width == 320 { //iPhone Small (5S, SE, ...)
             coordStartup = normalized.withOffset(CGVector(dx: 325, dy: 655))
             coordPassenger = normalized.withOffset(CGVector(dx: 230, dy: 790))
@@ -91,6 +94,7 @@ class TestAppTestUITests: XCTestCase {
             coordRaids = normalized.withOffset(CGVector(dx: 470, dy: 335))
             coordWeather1 = normalized.withOffset(CGVector(dx: 0, dy: 0))
             coordWeather2 = normalized.withOffset(CGVector(dx: 0, dy: 0))
+            coordWarning = normalized.withOffset(CGVector(dx: 320, dy: 960))
         } else if app.frame.size.width == 414 { //iPhone Large (6+, 7+, ...)
             coordStartup = normalized.withOffset(CGVector(dx: 621, dy: 1275))
             coordPassenger = normalized.withOffset(CGVector(dx: 820, dy: 1540))
@@ -98,6 +102,7 @@ class TestAppTestUITests: XCTestCase {
             coordRaids = normalized.withOffset(CGVector(dx: 880, dy: 655))
             coordWeather1 = normalized.withOffset(CGVector(dx: 0, dy: 0))
             coordWeather2 = normalized.withOffset(CGVector(dx: 0, dy: 0))
+            coordWarning = normalized.withOffset(CGVector(dx: 0, dy: 0))
         } else {
             fatalError("Unsupported iOS modell. Please report this in our Discord!")
         }
@@ -139,6 +144,8 @@ class TestAppTestUITests: XCTestCase {
                     print("Performing Startup sequence")
                     if app.state == .runningForeground {
                         coordStartup.tap()
+                        sleep(2)
+                        coordWarning.tap()
                         sleep(2)
                     }
                     coordWeather1.tap()
