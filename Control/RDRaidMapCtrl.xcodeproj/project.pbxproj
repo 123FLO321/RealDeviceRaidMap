@@ -13,7 +13,8 @@
 		2E9CC4B020A97F7A004355DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E9CC4AF20A97F7A004355DE /* Assets.xcassets */; };
 		2E9CC4B320A97F7A004355DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E9CC4B120A97F7A004355DE /* LaunchScreen.storyboard */; };
 		2E9CC4BE20A97F7A004355DE /* RDRaidMapCtrlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9CC4BD20A97F7A004355DE /* RDRaidMapCtrlUITests.swift */; };
-		2E9CC4C920A982C7004355DE /* Route1.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 2E9CC4C820A982C7004355DE /* Route1.gpx */; };
+		2EF09D7220FA36B200FA051C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF09D7120FA36B200FA051C /* Foundation.framework */; };
+		2EF09D7420FA36B700FA051C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF09D7320FA36B700FA051C /* XCTest.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +38,8 @@
 		2E9CC4B920A97F7A004355DE /* RDRaidMapCtrlUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RDRaidMapCtrlUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E9CC4BD20A97F7A004355DE /* RDRaidMapCtrlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDRaidMapCtrlUITests.swift; sourceTree = "<group>"; };
 		2E9CC4BF20A97F7A004355DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2E9CC4C820A982C7004355DE /* Route1.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Route1.gpx; sourceTree = "<group>"; };
-		2E9CC4CC20A9A800004355DE /* Route2.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Route2.gpx; sourceTree = "<group>"; };
+		2EF09D7120FA36B200FA051C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2EF09D7320FA36B700FA051C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +54,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EF09D7420FA36B700FA051C /* XCTest.framework in Frameworks */,
+				2EF09D7220FA36B200FA051C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +68,7 @@
 				2E9CC4A720A97F76004355DE /* RDRaidMapCtrl */,
 				2E9CC4BC20A97F7A004355DE /* RDRaidMapCtrlUITests */,
 				2E9CC4A620A97F76004355DE /* Products */,
+				2EF09D7020FA36B200FA051C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -93,12 +97,19 @@
 		2E9CC4BC20A97F7A004355DE /* RDRaidMapCtrlUITests */ = {
 			isa = PBXGroup;
 			children = (
-				2E9CC4C820A982C7004355DE /* Route1.gpx */,
-				2E9CC4CC20A9A800004355DE /* Route2.gpx */,
 				2E9CC4BD20A97F7A004355DE /* RDRaidMapCtrlUITests.swift */,
 				2E9CC4BF20A97F7A004355DE /* Info.plist */,
 			);
 			path = RDRaidMapCtrlUITests;
+			sourceTree = "<group>";
+		};
+		2EF09D7020FA36B200FA051C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2EF09D7320FA36B700FA051C /* XCTest.framework */,
+				2EF09D7120FA36B200FA051C /* Foundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,7 +205,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E9CC4C920A982C7004355DE /* Route1.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
