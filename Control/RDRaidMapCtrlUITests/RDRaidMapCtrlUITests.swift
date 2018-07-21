@@ -20,11 +20,16 @@ class TestAppTestUITests: XCTestCase {
     var username: String?
     var password: String?
     
+    var restartDelay = 600.0
+    
     override func setUp() {
         super.setUp()
         
-        if let value = Float(ProcessInfo.processInfo.environment["DELAY"] ?? "") {
+        if let value = Float(ProcessInfo.processInfo.environment["SCREENSHOT_DELAY"] ?? "") {
             screenshotDelay = value
+        }
+        if let value = Double(ProcessInfo.processInfo.environment["RESTART_DELAY"] ?? "") {
+            restartDelay = value
         }
         if let value = ProcessInfo.processInfo.environment["UUID"] {
             uuid = value
@@ -208,7 +213,7 @@ class TestAppTestUITests: XCTestCase {
         var isStarted = false
         var isStartupCompleted = false
         var startupImageSize = 0
-        var roundCount = 0
+        var appStart = Date()
         
         let normalized = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
         
@@ -258,7 +263,9 @@ class TestAppTestUITests: XCTestCase {
         
         while true {
             
-            if roundCount >= 120 {
+            print(Date().timeIntervalSince(appStart))
+            if Date().timeIntervalSince(appStart) >= restartDelay {
+                print("Restarting Pokemon Go")
                 app.terminate()
             }
             
@@ -267,7 +274,7 @@ class TestAppTestUITests: XCTestCase {
                 isStarted = false
                 isStartupCompleted = false
                 startupImageSize = 0
-                roundCount = 0
+                appStart = Date()
                 app.activate()
                 sleep(1)
             }
@@ -341,7 +348,6 @@ class TestAppTestUITests: XCTestCase {
                 isStarted = true
             }
             
-            roundCount += 1
         }
     }
 
