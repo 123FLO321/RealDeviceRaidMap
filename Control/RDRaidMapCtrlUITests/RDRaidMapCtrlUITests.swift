@@ -75,7 +75,7 @@ class TestAppTestUITests: XCTestCase {
         }
         
         app.activate()
-        sleep(10)
+        sleep(5)
     }
     
     func test1LoginSetup() {
