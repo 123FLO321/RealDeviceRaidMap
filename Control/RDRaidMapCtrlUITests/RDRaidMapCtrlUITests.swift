@@ -14,6 +14,12 @@ class TestAppTestUITests: XCTestCase {
     var uuid: String?
     var pokemon = false
     
+    var terminate = false
+    
+    var new: Bool? = false
+    var username: String?
+    var password: String?
+    
     override func setUp() {
         super.setUp()
         
@@ -27,7 +33,26 @@ class TestAppTestUITests: XCTestCase {
             pokemon = value
         }
         
+        if let value = Bool(ProcessInfo.processInfo.environment["TERMINATE"] ?? "") {
+            terminate = value
+        }
+        
+        if let value = Bool(ProcessInfo.processInfo.environment["NEW"] ?? "") {
+            new = value
+        }
+        if let value = ProcessInfo.processInfo.environment["USERNAME"] {
+            if value != "NONE" {
+                username = value
+            }
+        }
+        if let value = ProcessInfo.processInfo.environment["PASSWORD"] {
+            if value != "NONE" {
+                password = value
+            }
+        }
+        
         continueAfterFailure = true
+        
     }
     
     override func tearDown() {
@@ -35,7 +60,133 @@ class TestAppTestUITests: XCTestCase {
         
     }
     
-    func testExample() {
+    func test0Start() {
+        
+        let app = XCUIApplication(bundleIdentifier: "com.nianticlabs.pokemongo")
+        app.terminate()
+        if terminate {
+            print("Only Terminate PoGo Mode. Done!")
+            return
+        }
+        
+        app.activate()
+        sleep(10)
+    }
+    
+    func test1LoginSetup() {
+        
+        if terminate {
+            return
+        }
+        
+        if username != nil {
+            
+            let app = XCUIApplication(bundleIdentifier: "com.nianticlabs.pokemongo")
+            let normalized = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+            
+            let newPlayerButton: XCUICoordinate
+            let oldPlayerButton: XCUICoordinate
+            let ptcButton: XCUICoordinate
+            if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
+                newPlayerButton = normalized.withOffset(CGVector(dx: 375, dy: 750))
+                oldPlayerButton = normalized.withOffset(CGVector(dx: 375, dy: 925))
+                ptcButton = normalized.withOffset(CGVector(dx: 375, dy: 950))
+            } else {
+                fatalError("Unsupported iOS modell. Please report this in our Discord!")
+            }
+            
+            if new! {
+                newPlayerButton.tap()
+            } else {
+                oldPlayerButton.tap()
+            }
+            sleep(2)
+            ptcButton.tap()
+        }
+    }
+    
+    func test2LoginUsername() {
+        
+        if terminate {
+            return
+        }
+        
+        if username != nil {
+            
+            let app = XCUIApplication(bundleIdentifier: "com.nianticlabs.pokemongo")
+            let normalized = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+            
+            let loginUsernameTextField: XCUICoordinate
+            if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
+                loginUsernameTextField = normalized.withOffset(CGVector(dx: 375, dy: 600))
+            } else {
+                fatalError("Unsupported iOS modell. Please report this in our Discord!")
+            }
+            
+            sleep(2)
+            loginUsernameTextField.tap()
+            sleep(2)
+            app.typeText(username!)
+
+        }
+        
+    }
+    
+    func test3LoginPassword() {
+        
+        if terminate {
+            return
+        }
+        
+        if username != nil {
+            
+            let app = XCUIApplication(bundleIdentifier: "com.nianticlabs.pokemongo")
+            let normalized = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+            
+            let loginPasswordTextField: XCUICoordinate
+            if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
+                loginPasswordTextField = normalized.withOffset(CGVector(dx: 375, dy: 700))
+            } else {
+                fatalError("Unsupported iOS modell. Please report this in our Discord!")
+            }
+            
+            sleep(2)
+            loginPasswordTextField.tap()
+            sleep(2)
+            app.typeText(password!)
+            
+        }
+        
+    }
+    
+    func test4LoginEnd() {
+        
+        if terminate {
+            return
+        }
+        
+        if username != nil {
+            
+            let app = XCUIApplication(bundleIdentifier: "com.nianticlabs.pokemongo")
+            let normalized = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+            
+            let loginConfirmButton: XCUICoordinate
+            if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
+                loginConfirmButton = normalized.withOffset(CGVector(dx: 375, dy: 825))
+            } else {
+                fatalError("Unsupported iOS modell. Please report this in our Discord!")
+            }
+            
+            sleep(2)
+            loginConfirmButton.tap()
+        }
+    }
+    
+    func test5Main() {
+        
+        if terminate {
+            return
+        }
         
         DispatchQueue.global().async {
             while true {
@@ -52,15 +203,13 @@ class TestAppTestUITests: XCTestCase {
         }
         
         let app = XCUIApplication(bundleIdentifier: "com.nianticlabs.pokemongo")
+        
         var startupCount = 0
         var isStarted = false
         var isStartupCompleted = false
         var startupImageSize = 0
         var roundCount = 0
         
-        app.terminate()        
-        app.activate()
-        sleep(1)
         let normalized = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
         
         let coordStartup: XCUICoordinate
@@ -195,4 +344,43 @@ class TestAppTestUITests: XCTestCase {
             roundCount += 1
         }
     }
+
+    func logOut(app: XCUIApplication) {
+        
+        let normalized = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+        
+        let closeMenuButton: XCUICoordinate
+        let settingsButton: XCUICoordinate
+        let dragStart: XCUICoordinate
+        let dragEnd: XCUICoordinate
+        let logoutButton: XCUICoordinate
+        let logoutConfirmButton: XCUICoordinate
+        if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
+            closeMenuButton = normalized.withOffset(CGVector(dx: 375, dy: 1215))
+            settingsButton = normalized.withOffset(CGVector(dx: 700, dy: 215))
+            dragStart = normalized.withOffset(CGVector(dx: 375, dy: 1000))
+            dragEnd = normalized.withOffset(CGVector(dx: 375, dy: 100))
+            logoutButton = normalized.withOffset(CGVector(dx: 500, dy: 575))
+            logoutConfirmButton = normalized.withOffset(CGVector(dx: 375, dy: 725))
+        } else {
+            fatalError("Unsupported iOS modell. Please report this in our Discord!")
+        }
+        
+        //closeMenuButton.tap()
+        //sleep(2)
+        closeMenuButton.tap()
+        sleep(2)
+        settingsButton.tap()
+        sleep(2)
+        dragStart.press(forDuration: 0.1, thenDragTo: dragEnd)
+        sleep(2)
+        logoutButton.tap()
+        sleep(2)
+        logoutConfirmButton.tap()
+        
+        
+        
+        
+    }
+
 }
