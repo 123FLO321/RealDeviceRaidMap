@@ -115,7 +115,9 @@ class TestAppTestUITests: XCTestCase {
                 oldPlayerButton = normalized.withOffset(CGVector(dx: 375, dy: 925))
                 ptcButton = normalized.withOffset(CGVector(dx: 375, dy: 950))
             } else {
-                fatalError("Unsupported iOS modell. Please report this in our Discord!")
+                print("Unsupported iOS modell. Please report this in our Discord!")
+                XCTFail()
+                return
             }
             
             if new! {
@@ -143,7 +145,9 @@ class TestAppTestUITests: XCTestCase {
             if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
                 loginUsernameTextField = normalized.withOffset(CGVector(dx: 375, dy: 600))
             } else {
-                fatalError("Unsupported iOS modell. Please report this in our Discord!")
+                print("Unsupported iOS modell. Please report this in our Discord!")
+                XCTFail()
+                return
             }
             
             sleep(2)
@@ -170,7 +174,9 @@ class TestAppTestUITests: XCTestCase {
             if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
                 loginPasswordTextField = normalized.withOffset(CGVector(dx: 375, dy: 700))
             } else {
-                fatalError("Unsupported iOS modell. Please report this in our Discord!")
+                print("Unsupported iOS modell. Please report this in our Discord!")
+                XCTFail()
+                return
             }
             
             sleep(2)
@@ -197,7 +203,9 @@ class TestAppTestUITests: XCTestCase {
             if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
                 loginConfirmButton = normalized.withOffset(CGVector(dx: 375, dy: 825))
             } else {
-                fatalError("Unsupported iOS modell. Please report this in our Discord!")
+                print("Unsupported iOS modell. Please report this in our Discord!")
+                XCTFail()
+                return
             }
             
             sleep(2)
@@ -281,7 +289,9 @@ class TestAppTestUITests: XCTestCase {
             coordWarning = normalized.withOffset(CGVector(dx: 0, dy: 0))
             comparePosition = (0, 0)
         } else {
-            fatalError("Unsupported iOS modell. Please report this in our Discord!")
+            print("Unsupported iOS modell. Please report this in our Discord!")
+            XCTFail()
+            return
         }
         
         while true {
@@ -355,7 +365,13 @@ class TestAppTestUITests: XCTestCase {
                     }
                     isStartupCompleted = true
                 } else {
+                    print("App is running")
+                    coordWeather1.tap()
+                    sleep(2)
+                    coordWeather2.tap()
+                    sleep(2)
                     
+                    let screenshot = XCUIScreen.main.screenshot()
                     if comparePosition.x != 0 && comparePosition.y != 0 {
                         let color = screenshot.image.getPixelColor(pos: CGPoint(x: comparePosition.x, y: comparePosition.y))
                         var red: CGFloat = 0
@@ -370,11 +386,6 @@ class TestAppTestUITests: XCTestCase {
                             continue
                         }
                     }
-                    
-                    print("App is running")
-                    coordWeather1.tap()
-                    coordWeather2.tap()
-                    sleep(4)
                 }
             } else if screenshotSize > startupImageSize - 100000 && screenshotSize < startupImageSize + 100000 {
                 print("App still in Startup")
@@ -407,7 +418,9 @@ class TestAppTestUITests: XCTestCase {
             logoutButton = normalized.withOffset(CGVector(dx: 500, dy: 575))
             logoutConfirmButton = normalized.withOffset(CGVector(dx: 375, dy: 725))
         } else {
-            fatalError("Unsupported iOS modell. Please report this in our Discord!")
+            print("Unsupported iOS modell. Please report this in our Discord!")
+            XCTFail()
+            return
         }
         
         //closeMenuButton.tap()
