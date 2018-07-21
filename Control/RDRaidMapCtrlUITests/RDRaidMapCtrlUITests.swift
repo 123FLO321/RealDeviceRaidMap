@@ -46,12 +46,12 @@ class TestAppTestUITests: XCTestCase {
             new = value
         }
         if let value = ProcessInfo.processInfo.environment["USERNAME"] {
-            if value != "NONE" {
+            if value != "NONE" && value != "" {
                 username = value
             }
         }
         if let value = ProcessInfo.processInfo.environment["PASSWORD"] {
-            if value != "NONE" {
+            if value != "NONE" && value != "" {
                 password = value
             }
         }
@@ -263,7 +263,6 @@ class TestAppTestUITests: XCTestCase {
         
         while true {
             
-            print(Date().timeIntervalSince(appStart))
             if Date().timeIntervalSince(appStart) >= restartDelay {
                 print("Restarting Pokemon Go")
                 app.terminate()
