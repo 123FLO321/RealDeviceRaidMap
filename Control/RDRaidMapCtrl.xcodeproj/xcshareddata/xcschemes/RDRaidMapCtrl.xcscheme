@@ -77,8 +77,13 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
-            key = "DELAY"
-            value = "$(DELAY)"
+            key = "SCREENSHOT_DELAY"
+            value = "$(SCREENSHOT_DELAY)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "RESTART_DELAY"
+            value = "$(RESTART_DELAY)"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
