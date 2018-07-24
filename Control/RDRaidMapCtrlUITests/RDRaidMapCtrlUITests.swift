@@ -372,7 +372,7 @@ class TestAppTestUITests: XCTestCase {
                     sleep(2)
                     
                     let screenshot = XCUIScreen.main.screenshot()
-                    if comparePosition.x != 0 && comparePosition.y != 0 {
+                    /*if comparePosition.x != 0 && comparePosition.y != 0 {
                         let color = screenshot.image.getPixelColor(pos: CGPoint(x: comparePosition.x, y: comparePosition.y))
                         var red: CGFloat = 0
                         var green: CGFloat = 0
@@ -385,7 +385,7 @@ class TestAppTestUITests: XCTestCase {
                             app.terminate()
                             continue
                         }
-                    }
+                    }*/
                 }
             } else if screenshotSize > startupImageSize - 100000 && screenshotSize < startupImageSize + 100000 {
                 print("App still in Startup")
