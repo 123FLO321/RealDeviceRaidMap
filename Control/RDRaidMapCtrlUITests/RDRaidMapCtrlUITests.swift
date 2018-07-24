@@ -286,7 +286,7 @@ class TestAppTestUITests: XCTestCase {
             coordRaids = normalized.withOffset(CGVector(dx: 880, dy: 655))
             coordWeather1 = normalized.withOffset(CGVector(dx: 0, dy: 0))
             coordWeather2 = normalized.withOffset(CGVector(dx: 0, dy: 0))
-            coordWarning = normalized.withOffset(CGVector(dx: 0, dy: 0))
+            coordWarning = normalized.withOffset(CGVector(dx: 621, dy: 1865))
             comparePosition = (0, 0)
         } else {
             print("Unsupported iOS modell. Please report this in our Discord!")
