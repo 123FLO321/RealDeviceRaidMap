@@ -284,8 +284,8 @@ class TestAppTestUITests: XCTestCase {
             coordPassenger = normalized.withOffset(CGVector(dx: 820, dy: 1540))
             coordNearby = normalized.withOffset(CGVector(dx: 1060, dy: 2020))
             coordRaids = normalized.withOffset(CGVector(dx: 880, dy: 655))
-            coordWeather1 = normalized.withOffset(CGVector(dx: 0, dy: 0))
-            coordWeather2 = normalized.withOffset(CGVector(dx: 0, dy: 0))
+            coordWeather1 = normalized.withOffset(CGVector(dx: 621, dy: 1890))
+            coordWeather2 = normalized.withOffset(CGVector(dx: 621, dy: 2161))
             coordWarning = normalized.withOffset(CGVector(dx: 621, dy: 1865))
             comparePosition = (0, 0)
         } else {
