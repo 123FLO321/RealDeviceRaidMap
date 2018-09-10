@@ -344,7 +344,7 @@ class TestAppTestUITests: XCTestCase {
                     coordNearby.tap()
                     sleep(2)
                     for _ in 0...5 {
-                        clickPassengerWarning(coord: coordPassenger, compare: comparePassenger)
+                        _ = clickPassengerWarning(coord: coordPassenger, compare: comparePassenger)
                         coordNearby.tap()
                         usleep(1000)
                     }
@@ -352,7 +352,7 @@ class TestAppTestUITests: XCTestCase {
                     if !pokemon {
                         for _ in 0...20 {
                             if app.state == .runningForeground {
-                                clickPassengerWarning(coord: coordPassenger, compare: comparePassenger)
+                                _ = clickPassengerWarning(coord: coordPassenger, compare: comparePassenger)
                                 coordRaids.tap()
                                 usleep(1000)
                             }
@@ -361,8 +361,8 @@ class TestAppTestUITests: XCTestCase {
                     isStartupCompleted = true
                 } else {
                     print("[DEBUG] App is running")
-                    clickPassengerWarning(coord: coordPassenger, compare: comparePassenger)
                     var screenshot = XCUIScreen.main.screenshot()
+                    screenshot = clickPassengerWarning(coord: coordPassenger, compare: comparePassenger, screenshot: screenshot)
                     if compareWeather.x != 0 && compareWeather.y != 0 {
                         let color = screenshot.image.getPixelColor(pos: CGPoint(x: compareWeather.x, y: compareWeather.y))
                         var red: CGFloat = 0
@@ -376,8 +376,8 @@ class TestAppTestUITests: XCTestCase {
                             sleep(2)
                             coordWeather2.tap()
                             sleep(2)
-                            clickPassengerWarning(coord: coordPassenger, compare: comparePassenger)
                             screenshot = XCUIScreen.main.screenshot()
+                            screenshot = clickPassengerWarning(coord: coordPassenger, compare: comparePassenger, screenshot: screenshot)
                         }
                     }
                     if compareStuck.x != 0 && compareStuck.y != 0 {
@@ -399,7 +399,7 @@ class TestAppTestUITests: XCTestCase {
                             lastStuck = false
                         }
                     }
-                    sleep(2)
+                    sleep(3)
                 }
             } else {
                 let screenshotComp = XCUIScreen.main.screenshot()
@@ -465,9 +465,9 @@ class TestAppTestUITests: XCTestCase {
         
     }
 
-    func clickPassengerWarning(coord: XCUICoordinate, compare: (x: Int, y: Int)) {
+    func clickPassengerWarning(coord: XCUICoordinate, compare: (x: Int, y: Int), screenshot: XCUIScreenshot?=nil) -> XCUIScreenshot {
         var shouldClick = false
-        let screenshotComp = XCUIScreen.main.screenshot()
+        let screenshotComp = screenshot ?? XCUIScreen.main.screenshot()
         if compare.x != 0 && compare.y != 0 {
             let color = screenshotComp.image.getPixelColor(pos: CGPoint(x: compare.x, y: compare.y))
             var red: CGFloat = 0
@@ -484,6 +484,12 @@ class TestAppTestUITests: XCTestCase {
         if shouldClick {
             coord.tap()
             sleep(1)
+        }
+        if screenshot != nil {
+            return XCUIScreen.main.screenshot()
+        }
+        else {
+            return screenshotComp
         }
     }
     
