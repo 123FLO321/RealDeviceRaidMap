@@ -218,6 +218,7 @@ class TestAppTestUITests: XCTestCase {
             return
         }
         
+        let lock = NSLock()
         var attachments = [XCTAttachment]()
 
         DispatchQueue.global().async {
@@ -229,7 +230,9 @@ class TestAppTestUITests: XCTestCase {
                 if let uuid = self.uuid {
                     attachment.name = "\(uuid)_\(Int(Date().timeIntervalSince1970))_\(UUID().uuidString)"
                 }
+                lock.lock()
                 attachments.append(attachment)
+                lock.unlock()
             }
         }
         
@@ -426,10 +429,12 @@ class TestAppTestUITests: XCTestCase {
                 }
             }
             
+            lock.lock()
             while attachments.count > 0 {
                 let attachment = attachments.removeLast()
                 self.add(attachment)
             }
+            lock.unlock()
         }
     }
 
