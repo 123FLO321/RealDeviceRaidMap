@@ -218,18 +218,18 @@ class TestAppTestUITests: XCTestCase {
             return
         }
         
+        var attachments = [XCTAttachment]()
+
         DispatchQueue.global().async {
             while true {
                 usleep(useconds_t(self.screenshotDelay * 1000000))
-                DispatchQueue.main.sync {
-                    let screenshot = XCUIScreen.main.screenshot()
-                    let attachment = XCTAttachment(screenshot: screenshot)
-                    attachment.lifetime = .keepAlways
-                    if let uuid = self.uuid {
-                        attachment.name = "\(uuid)_\(Int(Date().timeIntervalSince1970))_\(UUID().uuidString)"
-                    }
-                    self.add(attachment)
+                let screenshot = XCUIScreen.main.screenshot()
+                let attachment = XCTAttachment(screenshot: screenshot)
+                attachment.lifetime = .keepAlways
+                if let uuid = self.uuid {
+                    attachment.name = "\(uuid)_\(Int(Date().timeIntervalSince1970))_\(UUID().uuidString)"
                 }
+                attachments.append(attachment)
             }
         }
         
@@ -399,7 +399,7 @@ class TestAppTestUITests: XCTestCase {
                             lastStuck = false
                         }
                     }
-                    sleep(3)
+                    sleep(2)
                 }
             } else {
                 let screenshotComp = XCUIScreen.main.screenshot()
@@ -424,6 +424,11 @@ class TestAppTestUITests: XCTestCase {
                 } else {
                     fatalError("compareStart not set")
                 }
+            }
+            
+            while attachments.count > 0 {
+                let attachment = attachments.removeLast()
+                self.add(attachment)
             }
         }
     }
