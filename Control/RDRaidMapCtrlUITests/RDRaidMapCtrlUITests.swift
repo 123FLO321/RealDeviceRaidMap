@@ -15,7 +15,7 @@ extension UIImage {
         let pixelData = cgImage!.dataProvider!.data!
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
         
-        let pixelInfo: Int = ((Int(self.size.width) * Int(pos.y)) + Int(pos.x)) * 4
+        let pixelInfo: Int = ((Int(cgImage!.width) * Int(pos.y)) + Int(pos.x)) * 4
         
         let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
         let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
@@ -80,7 +80,6 @@ class TestAppTestUITests: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
-        
     }
     
     func test0Start() {
@@ -88,12 +87,12 @@ class TestAppTestUITests: XCTestCase {
         let app = XCUIApplication(bundleIdentifier: "com.nianticlabs.pokemongo")
         app.terminate()
         if terminate {
-            print("Only Terminate PoGo Mode. Done!")
+            print("[DEBUG] Only Terminate PoGo Mode. Done!")
             return
         }
         
         app.activate()
-        sleep(5)
+        //sleep(5)
     }
     
     func test1LoginSetup() {
@@ -115,7 +114,7 @@ class TestAppTestUITests: XCTestCase {
                 oldPlayerButton = normalized.withOffset(CGVector(dx: 375, dy: 925))
                 ptcButton = normalized.withOffset(CGVector(dx: 375, dy: 950))
             } else {
-                print("Unsupported iOS modell. Please report this in our Discord!")
+                print("[DEBUG] Unsupported iOS modell. Please report this in our Discord!")
                 XCTFail()
                 return
             }
@@ -145,7 +144,7 @@ class TestAppTestUITests: XCTestCase {
             if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
                 loginUsernameTextField = normalized.withOffset(CGVector(dx: 375, dy: 600))
             } else {
-                print("Unsupported iOS modell. Please report this in our Discord!")
+                print("[DEBUG] Unsupported iOS modell. Please report this in our Discord!")
                 XCTFail()
                 return
             }
@@ -174,7 +173,7 @@ class TestAppTestUITests: XCTestCase {
             if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
                 loginPasswordTextField = normalized.withOffset(CGVector(dx: 375, dy: 700))
             } else {
-                print("Unsupported iOS modell. Please report this in our Discord!")
+                print("[DEBUG] Unsupported iOS modell. Please report this in our Discord!")
                 XCTFail()
                 return
             }
@@ -203,7 +202,7 @@ class TestAppTestUITests: XCTestCase {
             if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
                 loginConfirmButton = normalized.withOffset(CGVector(dx: 375, dy: 825))
             } else {
-                print("Unsupported iOS modell. Please report this in our Discord!")
+                print("[DEBUG] Unsupported iOS modell. Please report this in our Discord!")
                 XCTFail()
                 return
             }
@@ -237,8 +236,8 @@ class TestAppTestUITests: XCTestCase {
         
         var startupCount = 0
         var isStarted = false
+        var lastStuck = false
         var isStartupCompleted = false
-        var startupImageSize = 0
         var appStart = Date()
         
         let normalized = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
@@ -250,7 +249,10 @@ class TestAppTestUITests: XCTestCase {
         let coordWeather1: XCUICoordinate
         let coordWeather2: XCUICoordinate
         let coordWarning: XCUICoordinate
-        let comparePosition: (x: Int, y: Int)
+        let compareStuck: (x: Int, y: Int)
+        let compareStart: (x: Int, y: Int)
+        let compareWeather: (x: Int, y: Int)
+        let comparePassenger: (x: Int, y: Int)
         
         if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
             coordStartup = normalized.withOffset(CGVector(dx: 375, dy: 800))
@@ -260,7 +262,10 @@ class TestAppTestUITests: XCTestCase {
             coordWeather1 = normalized.withOffset(CGVector(dx: 225, dy: 1145))
             coordWeather2 = normalized.withOffset(CGVector(dx: 225, dy: 1270))
             coordWarning = normalized.withOffset(CGVector(dx: 375, dy: 1125))
-            comparePosition = (300, 1300)
+            compareStuck = (50, 1200)
+            compareStart = (375, 800)
+            compareWeather = (375, 916)
+            comparePassenger = (275, 950)
         } else if app.frame.size.width == 768 { //iPad 9,7 (Air, Air2, ...)
             coordStartup = normalized.withOffset(CGVector(dx: 768, dy: 1234))
             coordPassenger = normalized.withOffset(CGVector(dx: 768, dy: 1567))
@@ -269,7 +274,10 @@ class TestAppTestUITests: XCTestCase {
             coordWeather1 = normalized.withOffset(CGVector(dx: 1300, dy: 1700))
             coordWeather2 = normalized.withOffset(CGVector(dx: 768, dy: 2000))
             coordWarning = normalized.withOffset(CGVector(dx: 768, dy: 1700))
-            comparePosition = (0, 0)
+            compareStuck = (102, 1873)
+            compareStart = (768, 1234)
+            compareWeather = (768, 1360)
+            comparePassenger = (768, 1567)
         } else if app.frame.size.width == 320 { //iPhone Small (5S, SE, ...)
             coordStartup = normalized.withOffset(CGVector(dx: 325, dy: 655))
             coordPassenger = normalized.withOffset(CGVector(dx: 230, dy: 790))
@@ -278,7 +286,10 @@ class TestAppTestUITests: XCTestCase {
             coordWeather1 = normalized.withOffset(CGVector(dx: 240, dy: 975))
             coordWeather2 = normalized.withOffset(CGVector(dx: 220, dy: 1080))
             coordWarning = normalized.withOffset(CGVector(dx: 320, dy: 960))
-            comparePosition = (0, 0)
+            compareStuck = (42, 1040)
+            compareStart = (325, 655)
+            compareWeather = (320, 780)
+            comparePassenger = (230, 790)
         } else if app.frame.size.width == 414 { //iPhone Large (6+, 7+, ...)
             coordStartup = normalized.withOffset(CGVector(dx: 621, dy: 1275))
             coordPassenger = normalized.withOffset(CGVector(dx: 820, dy: 1540))
@@ -287,9 +298,12 @@ class TestAppTestUITests: XCTestCase {
             coordWeather1 = normalized.withOffset(CGVector(dx: 621, dy: 1890))
             coordWeather2 = normalized.withOffset(CGVector(dx: 621, dy: 2161))
             coordWarning = normalized.withOffset(CGVector(dx: 621, dy: 1865))
-            comparePosition = (0, 0)
+            compareStuck = (55, 2020)
+            compareStart = (621, 1275)
+            compareWeather = (621, 1512)
+            comparePassenger = (820, 1540)
         } else {
-            print("Unsupported iOS modell. Please report this in our Discord!")
+            print("[DEBUG] Unsupported iOS modell. Please report this in our Discord!")
             XCTFail()
             return
         }
@@ -297,15 +311,15 @@ class TestAppTestUITests: XCTestCase {
         while true {
             
             if Date().timeIntervalSince(appStart) >= restartDelay {
-                print("Restarting Pokemon Go")
+                print("[DEBUG] Restarting Pokemon Go")
                 app.terminate()
             }
             
             if app.state == .notRunning {
                 startupCount = 0
                 isStarted = false
+                lastStuck = false
                 isStartupCompleted = false
-                startupImageSize = 0
                 appStart = Date()
                 app.activate()
                 sleep(1)
@@ -315,49 +329,29 @@ class TestAppTestUITests: XCTestCase {
                 sleep(1)
             }
             
-            if app.state == .runningForeground {
-                coordPassenger.tap()
-                sleep(1)
-            }
-            let screenshot = XCUIScreen.main.screenshot()
-            let screenshotSize = screenshot.pngRepresentation.count
-            
-            if startupCount == 0 {
-                startupImageSize = screenshotSize
-            }
-            
             if isStarted {
-
                 if !isStartupCompleted {
-                    print("Performing Startup sequence")
-                    if app.state == .runningForeground {
-                        coordStartup.tap()
-                        sleep(2)
-                        coordWarning.tap()
-                        sleep(2)
-                    }
+                    print("[DEBUG] Performing Startup sequence")
+                    coordStartup.tap()
+                    sleep(2)
+                    coordWarning.tap()
+                    sleep(2)
                     coordWeather1.tap()
                     sleep(2)
                     coordWeather2.tap()
                     sleep(2)
-                    if app.state == .runningForeground {
+                    coordNearby.tap()
+                    sleep(2)
+                    for _ in 0...5 {
+                        clickPassengerWarning(coord: coordPassenger, compare: comparePassenger)
                         coordNearby.tap()
-                        sleep(2)
+                        usleep(1000)
                     }
-                    if app.state == .runningForeground {
-                        for _ in 0...5 {
-                            coordPassenger.tap()
-                            usleep(1000)
-                            coordNearby.tap()
-                            usleep(1000)
-                        }
-                        sleep(2)
-                    }
+                    sleep(2)
                     if !pokemon {
                         for _ in 0...20 {
                             if app.state == .runningForeground {
-                                coordPassenger.tap()
-                                usleep(1000)
+                                clickPassengerWarning(coord: coordPassenger, compare: comparePassenger)
                                 coordRaids.tap()
                                 usleep(1000)
                             }
@@ -365,38 +359,70 @@ class TestAppTestUITests: XCTestCase {
                     }
                     isStartupCompleted = true
                 } else {
-                    print("App is running")
-                    coordWeather1.tap()
-                    sleep(2)
-                    coordWeather2.tap()
-                    sleep(2)
-                    
-                    let screenshot = XCUIScreen.main.screenshot()
-                    /*if comparePosition.x != 0 && comparePosition.y != 0 {
-                        let color = screenshot.image.getPixelColor(pos: CGPoint(x: comparePosition.x, y: comparePosition.y))
+                    print("[DEBUG] App is running")
+                    clickPassengerWarning(coord: coordPassenger, compare: comparePassenger)
+                    var screenshot = XCUIScreen.main.screenshot()
+                    if compareWeather.x != 0 && compareWeather.y != 0 {
+                        let color = screenshot.image.getPixelColor(pos: CGPoint(x: compareWeather.x, y: compareWeather.y))
                         var red: CGFloat = 0
                         var green: CGFloat = 0
                         var blue: CGFloat = 0
                         var alpha: CGFloat = 0
                         color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-                        print(red, green, blue, alpha)
-                        if red < 0.9 || green < 0.9 || blue < 0.9 {
-                            print("We are stuck somewhere. Restarting...")
-                            app.terminate()
-                            continue
+                        if red > 0.235 && red < 0.353 && green > 0.353 && green < 0.47 && blue > 0.5 && blue < 0.63 {
+                            print("[DEBUG] Clicking Weather Warning")
+                            coordWeather1.tap()
+                            sleep(2)
+                            coordWeather2.tap()
+                            sleep(2)
+                            clickPassengerWarning(coord: coordPassenger, compare: comparePassenger)
+                            screenshot = XCUIScreen.main.screenshot()
                         }
-                    }*/
+                    }
+                    if compareStuck.x != 0 && compareStuck.y != 0 {
+                        let color = screenshot.image.getPixelColor(pos: CGPoint(x: compareStuck.x, y: compareStuck.y))
+                        var red: CGFloat = 0
+                        var green: CGFloat = 0
+                        var blue: CGFloat = 0
+                        var alpha: CGFloat = 0
+                        color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+                        if red < 0.9 || green < 0.9 || blue < 0.9 {
+                            if lastStuck {
+                                print("[DEBUG] We are stuck somewhere. Restarting...")
+                                app.terminate()
+                                continue
+                            } else {
+                                lastStuck = true
+                            }
+                        } else {
+                            lastStuck = false
+                        }
+                    }
+                    sleep(2)
                 }
-            } else if screenshotSize > startupImageSize - 100000 && screenshotSize < startupImageSize + 100000 {
-                print("App still in Startup")
-                if startupCount == 30 {
-                    app.terminate() // Retry
-                }
-                startupCount += 1
             } else {
-                isStarted = true
+                let screenshotComp = XCUIScreen.main.screenshot()
+                if compareStart.x != 0 && compareStart.y != 0 {
+                    let color = screenshotComp.image.getPixelColor(pos: CGPoint(x: compareStart.x, y: compareStart.y))
+                    var red: CGFloat = 0
+                    var green: CGFloat = 0
+                    var blue: CGFloat = 0
+                    var alpha: CGFloat = 0
+                    color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+                    if (green > 0.75 && green < 0.9 && blue > 0.55 && blue < 0.7) {
+                        print("[DEBUG] App Started")
+                        isStarted = true
+                    } else {
+                        print("[DEBUG] App still in Startup")
+                        if startupCount == 45 {
+                            app.terminate() // Retry
+                        }
+                        startupCount += 1
+                    }
+                } else {
+                    fatalError("compareStart not set")
+                }
             }
-            
         }
     }
 
@@ -418,7 +444,7 @@ class TestAppTestUITests: XCTestCase {
             logoutButton = normalized.withOffset(CGVector(dx: 500, dy: 575))
             logoutConfirmButton = normalized.withOffset(CGVector(dx: 375, dy: 725))
         } else {
-            print("Unsupported iOS modell. Please report this in our Discord!")
+            print("[DEBUG] Unsupported iOS modell. Please report this in our Discord!")
             XCTFail()
             return
         }
@@ -435,9 +461,28 @@ class TestAppTestUITests: XCTestCase {
         sleep(2)
         logoutConfirmButton.tap()
         
-        
-        
-        
     }
 
+    func clickPassengerWarning(coord: XCUICoordinate, compare: (x: Int, y: Int)) {
+        var shouldClick = false
+        let screenshotComp = XCUIScreen.main.screenshot()
+        if compare.x != 0 && compare.y != 0 {
+            let color = screenshotComp.image.getPixelColor(pos: CGPoint(x: compare.x, y: compare.y))
+            var red: CGFloat = 0
+            var green: CGFloat = 0
+            var blue: CGFloat = 0
+            var alpha: CGFloat = 0
+            color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+            if (green > 0.75 && green < 0.9 && blue > 0.55 && blue < 0.7) {
+                shouldClick = true
+            }
+        } else {
+            shouldClick = true
+        }
+        if shouldClick {
+            coord.tap()
+            sleep(1)
+        }
+    }
+    
 }
