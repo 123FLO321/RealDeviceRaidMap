@@ -418,6 +418,7 @@ class TestAppTestUITests: XCTestCase {
                             app.terminate() // Retry
                         }
                         startupCount += 1
+                        sleep(1)
                     }
                 } else {
                     fatalError("compareStart not set")
