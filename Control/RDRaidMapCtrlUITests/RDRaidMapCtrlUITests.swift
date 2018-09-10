@@ -221,14 +221,15 @@ class TestAppTestUITests: XCTestCase {
         DispatchQueue.global().async {
             while true {
                 usleep(useconds_t(self.screenshotDelay * 1000000))
-                
-                let screenshot = XCUIScreen.main.screenshot()
-                let attachment = XCTAttachment(screenshot: screenshot)
-                attachment.lifetime = .keepAlways
-                if let uuid = self.uuid {
-                    attachment.name = "\(uuid)_\(Int(Date().timeIntervalSince1970))_\(UUID().uuidString)"
+                DispatchQueue.main.sync {
+                    let screenshot = XCUIScreen.main.screenshot()
+                    let attachment = XCTAttachment(screenshot: screenshot)
+                    attachment.lifetime = .keepAlways
+                    if let uuid = self.uuid {
+                        attachment.name = "\(uuid)_\(Int(Date().timeIntervalSince1970))_\(UUID().uuidString)"
+                    }
+                    self.add(attachment)
                 }
-                self.add(attachment)
             }
         }
         
