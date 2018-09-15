@@ -344,6 +344,9 @@ class TestAppTestUITests: XCTestCase {
                     sleep(2)
                     coordWeather2.tap()
                     sleep(2)
+                    app.tap()
+                    app.swipeDown()
+                    sleep(2)
                     coordNearby.tap()
                     sleep(2)
                     for _ in 0...5 {
