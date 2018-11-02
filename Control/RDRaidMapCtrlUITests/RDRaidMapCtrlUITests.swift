@@ -259,7 +259,7 @@ class TestAppTestUITests: XCTestCase {
         let comparePassenger: (x: Int, y: Int)
         
         if app.frame.size.width == 375 { //iPhone Normal (6, 7, ...)
-            coordStartup = normalized.withOffset(CGVector(dx: 375, dy: 800))
+            coordStartup = normalized.withOffset(CGVector(dx: 375, dy: 770))
             coordPassenger = normalized.withOffset(CGVector(dx: 275, dy: 950))
             coordNearby = normalized.withOffset(CGVector(dx: 600, dy: 1200))
             coordRaids = normalized.withOffset(CGVector(dx: 550, dy: 450))
@@ -267,7 +267,7 @@ class TestAppTestUITests: XCTestCase {
             coordWeather2 = normalized.withOffset(CGVector(dx: 225, dy: 1270))
             coordWarning = normalized.withOffset(CGVector(dx: 375, dy: 1125))
             compareStuck = (50, 1200)
-            compareStart = (375, 800)
+            compareStart = (375, 770)
             compareWeather = (375, 916)
             comparePassenger = (275, 950)
         } else if app.frame.size.width == 768 { //iPad 9,7 (Air, Air2, ...)
