@@ -286,7 +286,7 @@ class TestAppTestUITests: XCTestCase {
             coordStartup = normalized.withOffset(CGVector(dx: 320, dy: 655))
             coordPassenger = normalized.withOffset(CGVector(dx: 230, dy: 790))
             coordNearby = normalized.withOffset(CGVector(dx: 550, dy: 1040))
-            coordRaids = normalized.withOffset(CGVector(dx: 470, dy: 335))
+            coordRaids = normalized.withOffset(CGVector(dx: 460, dy: 230))
             coordWeather1 = normalized.withOffset(CGVector(dx: 240, dy: 975))
             coordWeather2 = normalized.withOffset(CGVector(dx: 220, dy: 1080))
             coordWarning = normalized.withOffset(CGVector(dx: 320, dy: 960))
